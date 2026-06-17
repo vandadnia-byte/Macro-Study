@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MacroStudy — Master Macroeconomics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg2: #111827;
+  --bg3: #1a2235;
+  --bg4: #1f2d42;
+  --border: rgba(99,131,184,0.15);
+  --border2: rgba(99,131,184,0.25);
+  --text: #e8edf5;
+  --text2: #8fa3bf;
+  --text3: #4d6280;
+  --accent: #3b82f6;
+  --accent2: #60a5fa;
+  --accent-dim: rgba(59,130,246,0.12);
+  --green: #10b981;
+  --green-dim: rgba(16,185,129,0.12);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,0.12);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.12);
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.12);
+  --teal: #14b8a6;
+  --teal-dim: rgba(20,184,166,0.12);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --mono: 'JetBrains Mono', monospace;
+  --display: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--body); min-height: 100vh; overflow-x: hidden; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 240px;
+  background: var(--bg2); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; z-index: 100; overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  font-family: var(--display); font-size: 20px; font-weight: 700;
+  color: var(--text); letter-spacing: -0.5px;
+}
+.logo-mark span { color: var(--accent2); }
+.logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.sidebar-section { padding: 16px 12px 4px; }
+.sidebar-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; padding: 0 8px; margin-bottom: 6px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+  border-radius: var(--radius); cursor: pointer; font-size: 13px; color: var(--text2);
+  transition: all .15s; margin-bottom: 2px; border: none; background: none; width: 100%; text-align: left;
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: var(--accent-dim); color: var(--accent2); }
+.nav-item .icon { width: 18px; text-align: center; font-size: 14px; flex-shrink: 0; }
+.nav-badge { margin-left: auto; background: var(--bg4); color: var(--text3); font-size: 10px; padding: 1px 6px; border-radius: 10px; }
+.progress-ring { padding: 16px 20px; border-top: 1px solid var(--border); margin-top: auto; }
+.progress-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+.progress-track { height: 4px; background: var(--bg4); border-radius: 2px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--teal)); border-radius: 2px; transition: width .4s; }
+.progress-stat { font-size: 12px; color: var(--text2); margin-top: 5px; }
+
+/* ── MAIN ── */
+.main { margin-left: 240px; min-height: 100vh; }
+.page { display: none; padding: 32px; max-width: 1100px; }
+.page.active { display: block; }
+
+/* ── HERO ── */
+.hero { padding: 60px 40px; text-align: center; position: relative; overflow: hidden; }
+.hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent2); margin-bottom: 16px; }
+.hero-title { font-family: var(--display); font-size: 52px; font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; color: var(--text); margin-bottom: 16px; }
+.hero-title .accent { color: var(--accent2); }
+.hero-sub { font-size: 16px; color: var(--text2); max-width: 520px; margin: 0 auto 32px; line-height: 1.7; }
+.hero-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 800px; margin: 0 auto; }
+.hero-stat { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; text-align: center; }
+.hero-stat-num { font-family: var(--display); font-size: 28px; font-weight: 700; color: var(--accent2); }
+.hero-stat-lbl { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.hero-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 860px; margin: 40px auto 0; }
+.module-card {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 18px 20px; cursor: pointer; transition: all .2s; text-align: left;
+}
+.module-card:hover { border-color: var(--border2); background: var(--bg4); transform: translateY(-2px); }
+.mc-icon { font-size: 22px; margin-bottom: 10px; }
+.mc-title { font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.mc-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+.mc-count { font-size: 10px; color: var(--text3); margin-top: 8px; font-family: var(--mono); }
+
+/* ── SECTION HEADERS ── */
+.page-header { margin-bottom: 24px; }
+.page-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent2); margin-bottom: 6px; }
+.page-title { font-family: var(--display); font-size: 28px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); margin-bottom: 6px; }
+.page-sub { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+/* ── CARDS ── */
+.card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px; margin-bottom: 14px; }
+.card-title { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 14px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.four-col { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+
+/* ── METRICS ── */
+.metric { background: var(--bg4); border-radius: var(--radius); padding: 14px 16px; }
+.metric-lbl { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+.metric-val { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--text); }
+.metric-sub { font-size: 11px; margin-top: 3px; }
+
+/* ── SLIDERS ── */
+.sr { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.sl { font-size: 12px; color: var(--text2); width: 160px; flex-shrink: 0; }
+.sv { font-size: 12px; font-weight: 500; min-width: 52px; text-align: right; color: var(--text); font-family: var(--mono); }
+input[type=range] { -webkit-appearance: none; appearance: none; height: 4px; background: var(--bg4); border-radius: 2px; outline: none; flex: 1; cursor: pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+input[type=range]::-webkit-slider-thumb:hover { background: var(--accent2); }
+
+/* ── INSIGHT BOX ── */
+.insight { border-left: 3px solid var(--accent); background: var(--accent-dim); border-radius: 0 var(--radius) var(--radius) 0; padding: 10px 14px; font-size: 12px; color: var(--text2); line-height: 1.6; margin: 12px 0; }
+.insight.green { border-color: var(--green); background: var(--green-dim); }
+.insight.amber { border-color: var(--amber); background: var(--amber-dim); }
+.insight.red { border-color: var(--red); background: var(--red-dim); }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 7px 14px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--bg4); color: var(--text2); cursor: pointer; transition: all .15s; font-family: var(--body); }
+.btn:hover { background: var(--bg3); color: var(--text); border-color: var(--accent); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent2); color: #fff; }
+.btn-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+/* ── SCENARIO GRID ── */
+.scen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 8px; margin: 10px 0; }
+.scen-btn { font-size: 12px; padding: 9px 11px; text-align: left; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg4); color: var(--text2); cursor: pointer; line-height: 1.4; transition: all .15s; }
+.scen-btn:hover { border-color: var(--accent); color: var(--text); background: var(--bg3); }
+
+/* ── CONCEPT GRID ── */
+.concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 10px; }
+.cc { background: var(--bg4); border-radius: var(--radius); padding: 12px 14px; border: 1px solid var(--border); transition: border-color .15s; cursor: pointer; }
+.cc:hover { border-color: var(--border2); }
+.cc-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; font-family: var(--display); }
+.cc-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
+
+/* ── TABS ── */
+.tab-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 18px; }
+.tab { font-size: 12px; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text3); cursor: pointer; transition: all .15s; font-family: var(--body); }
+.tab:hover { color: var(--text2); border-color: var(--border2); }
+.tab.active { background: var(--accent-dim); color: var(--accent2); border-color: rgba(59,130,246,0.35); font-weight: 500; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── LEGEND ── */
+.legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 8px; }
+.ld { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 4px; vertical-align: middle; }
+.legend span { font-size: 11px; color: var(--text3); }
+
+/* ── GLOSSARY ── */
+.search-wrap { position: relative; margin-bottom: 14px; }
+.search-wrap input { width: 100%; padding: 10px 14px 10px 38px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg4); color: var(--text); font-size: 13px; font-family: var(--body); outline: none; transition: border-color .15s; }
+.search-wrap input:focus { border-color: var(--accent); }
+.search-wrap input::placeholder { color: var(--text3); }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 15px; pointer-events: none; }
+.cat-tabs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+.ct { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text3); cursor: pointer; font-family: var(--body); transition: all .15s; }
+.ct:hover { color: var(--text2); }
+.ct.active { font-weight: 600; border-color: transparent; }
+.kw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 8px; }
+.kw-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; cursor: pointer; transition: all .15s; }
+.kw-card:hover { border-color: var(--border2); }
+.kw-card.open { border-color: var(--accent); background: var(--bg4); }
+.kw-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.kw-word { font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.kw-short { font-size: 12px; color: var(--text3); line-height: 1.4; }
+.kw-badge { font-size: 10px; padding: 2px 7px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; font-weight: 500; }
+.kw-expand { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.kw-expand.open { display: block; }
+.kw-plain { font-size: 12px; color: var(--text2); line-height: 1.65; margin-bottom: 8px; }
+.kw-eg { background: var(--bg); border-radius: var(--radius); padding: 9px 12px; font-size: 11px; color: var(--text3); line-height: 1.5; margin-bottom: 8px; }
+.kw-eg strong { color: var(--text2); }
+.formula { font-family: var(--mono); font-size: 12px; color: var(--teal); background: var(--bg); padding: 6px 10px; border-radius: var(--radius); margin-bottom: 8px; }
+
+/* ── QUIZ ── */
+.quiz-q { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 12px; line-height: 1.5; font-family: var(--display); }
+.quiz-num { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-bottom: 6px; }
+.quiz-opt { display: block; width: 100%; text-align: left; font-size: 13px; padding: 11px 15px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg4); color: var(--text2); cursor: pointer; margin: 6px 0; transition: all .15s; font-family: var(--body); }
+.quiz-opt:hover:not(:disabled) { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+.quiz-opt.correct { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.quiz-opt.wrong { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+.quiz-fb { font-size: 12px; padding: 10px 14px; border-radius: var(--radius); margin-top: 10px; display: none; line-height: 1.6; }
+.quiz-fb.show { display: block; }
+.quiz-fb.correct { background: var(--green-dim); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+.quiz-fb.wrong { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.25); }
+.quiz-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+.score-bar { height: 6px; background: var(--bg4); border-radius: 3px; margin: 8px 0; }
+.score-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width .4s; }
+.score-display { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--text); text-align: center; margin: 10px 0; }
+
+/* ── CYCLE STEPS ── */
+.step-card { border-left: 3px solid var(--accent); padding: 14px 16px; background: var(--bg4); border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 14px; }
+.step-title { font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.step-body { font-size: 12px; color: var(--text3); line-height: 1.6; margin-bottom: 8px; }
+.step-analogy { font-size: 12px; color: var(--accent2); background: var(--accent-dim); border-radius: var(--radius); padding: 8px 11px; line-height: 1.5; }
+.meter-row { display: flex; align-items: center; gap: 8px; margin: 5px 0; }
+.meter-lbl { font-size: 11px; color: var(--text3); width: 130px; flex-shrink: 0; }
+.meter-track { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.meter-fill { height: 100%; border-radius: 3px; transition: width .5s; }
+.meter-val { font-size: 11px; font-family: var(--mono); min-width: 32px; text-align: right; color: var(--text3); }
+
+/* ── CHAIN ── */
+.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 12px 0; }
+.chain-item { background: var(--bg4); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; font-size: 12px; color: var(--text2); text-align: center; }
+.chain-arrow { color: var(--text3); font-size: 14px; }
+
+/* ── TIMELINE ── */
+.timeline-item { display: flex; gap: 14px; margin-bottom: 14px; }
+.tl-dot { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; font-family: var(--display); margin-top: 2px; }
+.tl-year { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 3px; font-family: var(--display); }
+.tl-text { font-size: 12px; color: var(--text3); line-height: 1.6; }
+.tl-badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; margin-bottom: 4px; }
+
+/* ── SCHOOLS ── */
+.school-card { background: var(--bg4); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; cursor: pointer; transition: all .15s; }
+.school-card:hover { border-color: var(--border2); }
+.school-name { font-family: var(--display); font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.school-thinker { font-size: 11px; color: var(--text3); margin-bottom: 6px; font-family: var(--mono); }
+.school-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+.school-quote { font-size: 12px; font-style: italic; color: var(--text2); border-left: 2px solid var(--border2); padding-left: 10px; margin-top: 8px; line-height: 1.5; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .sidebar { width: 200px; }
+  .main { margin-left: 200px; }
+  .hero-title { font-size: 36px; }
+  .hero-cards { grid-template-columns: repeat(2,1fr); }
+  .two-col, .three-col, .four-col { grid-template-columns: 1fr; }
+  .hero-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── CHART WRAPPER ── */
+.chart-wrap { position: relative; width: 100%; }
+
+/* ── BADGES ── */
+.badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; letter-spacing: .03em; }
+.badge-blue { background: var(--accent-dim); color: var(--accent2); }
+.badge-green { background: var(--green-dim); color: var(--green); }
+.badge-amber { background: var(--amber-dim); color: var(--amber); }
+.badge-red { background: var(--red-dim); color: var(--red); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); }
+.badge-teal { background: var(--teal-dim); color: var(--teal); }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* ── EMPTY STATE ── */
+.empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 13px; }
+
+/* ── STICKY TOP BAR ── */
+.top-bar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+.top-title { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--text); }
+.top-meta { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+
+/* ── STARS ── */
+.bg-stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .35; }
+
+/* ── FLASHCARD ── */
+.flashcard-wrap { perspective: 800px; }
+.flashcard { width: 100%; height: 220px; position: relative; transform-style: preserve-3d; transition: transform .5s; cursor: pointer; }
+.flashcard.flipped { transform: rotateY(180deg); }
+.fc-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius-lg); border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; }
+.fc-front { background: var(--bg3); }
+.fc-back { background: var(--bg4); transform: rotateY(180deg); }
+.fc-hint { font-size: 11px; color: var(--text3); margin-bottom: 10px; }
+.fc-word { font-family: var(--display); font-size: 24px; font-weight: 700; color: var(--text); }
+.fc-short { font-size: 13px; color: var(--text2); line-height: 1.6; max-width: 380px; }
+.fc-eg { font-size: 11px; color: var(--text3); max-width: 380px; margin-top: 8px; line-height: 1.5; }
+.fc-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 14px; }
+.fc-count { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">Macro<span>Study</span></div>
+    <div class="logo-sub">Complete study guide</div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Start here</div>
+    <button class="nav-item active" onclick="showPage('home')">
+      <span class="icon">🏠</span> Home
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Core topics</div>
+    <button class="nav-item" onclick="showPage('gdp')">
+      <span class="icon">📊</span> GDP & Output <span class="nav-badge">6</span>
+    </button>
+    <button class="nav-item" onclick="showPage('cycle')">
+      <span class="icon">🔄</span> Business Cycle <span class="nav-badge">6</span>
+    </button>
+    <button class="nav-item" onclick="showPage('inflation')">
+      <span class="icon">🔥</span> Inflation <span class="nav-badge">6</span>
+    </button>
+    <button class="nav-item" onclick="showPage('unemployment')">
+      <span class="icon">👥</span> Unemployment <span class="nav-badge">6</span>
+    </button>
+    <button class="nav-item" onclick="showPage('monetary')">
+      <span class="icon">🏦</span> Monetary Policy <span class="nav-badge">7</span>
+    </button>
+    <button class="nav-item" onclick="showPage('fiscal')">
+      <span class="icon">🏛️</span> Fiscal Policy <span class="nav-badge">6</span>
+    </button>
+    <button class="nav-item" onclick="showPage('money')">
+      <span class="icon">💰</span> Money & Banking <span class="nav-badge">6</span>
+    </button>
+    <button class="nav-item" onclick="showPage('trade')">
+      <span class="icon">🌍</span> International Trade <span class="nav-badge">7</span>
+    </button>
+    <button class="nav-item" onclick="showPage('growth')">
+      <span class="icon">📈</span> Long-run Growth <span class="nav-badge">6</span>
+    </button>
+    <button class="nav-item" onclick="showPage('schools')">
+      <span class="icon">🎓</span> Schools of Thought <span class="nav-badge">8</span>
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Study tools</div>
+    <button class="nav-item" onclick="showPage('glossary')">
+      <span class="icon">📖</span> Full Glossary <span class="nav-badge">50</span>
+    </button>
+    <button class="nav-item" onclick="showPage('flashcards')">
+      <span class="icon">🃏</span> Flashcards
+    </button>
+    <button class="nav-item" onclick="showPage('quiz')">
+      <span class="icon">✏️</span> Mega Quiz <span class="nav-badge">30</span>
+    </button>
+  </div>
+
+  <div class="progress-ring">
+    <div class="progress-label">Study progress</div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="progress-stat"><span id="prog-count">0</span> / 13 sections visited</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ══════════════ HOME ══════════════ -->
+<div id="page-home" class="page active" style="padding:0">
+  <div class="hero">
+    <div class="hero-eyebrow">Complete Study Guide</div>
+    <div class="hero-title">Master <span class="accent">Macro</span>economics</div>
+    <div class="hero-sub">Everything you need — interactive charts, plain-English definitions, real examples, flashcards and quizzes. All in one place.</div>
+    <div class="hero-cards">
+      <div class="hero-stat"><div class="hero-stat-num">10</div><div class="hero-stat-lbl">Core topics</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">50</div><div class="hero-stat-lbl">Key terms</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">30</div><div class="hero-stat-lbl">Quiz questions</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">∞</div><div class="hero-stat-lbl">Interactive charts</div></div>
+    </div>
+    <div class="hero-grid">
+      <div class="module-card" onclick="showPage('gdp')"><div class="mc-icon">📊</div><div class="mc-title">GDP & Output</div><div class="mc-desc">What the economy produces and how we measure it</div><div class="mc-count">C + I + G + NX</div></div>
+      <div class="module-card" onclick="showPage('cycle')"><div class="mc-icon">🔄</div><div class="mc-title">Business Cycle</div><div class="mc-desc">Booms, recessions, peaks and troughs explained</div><div class="mc-count">Expansion → Peak → Contraction → Trough</div></div>
+      <div class="module-card" onclick="showPage('inflation')"><div class="mc-icon">🔥</div><div class="mc-title">Inflation</div><div class="mc-desc">Why prices rise and how central banks react</div><div class="mc-count">CPI · PCE · Demand-pull · Cost-push</div></div>
+      <div class="module-card" onclick="showPage('unemployment')"><div class="mc-icon">👥</div><div class="mc-title">Unemployment</div><div class="mc-desc">The Phillips curve, NAIRU and types of joblessness</div><div class="mc-count">Frictional · Structural · Cyclical</div></div>
+      <div class="module-card" onclick="showPage('monetary')"><div class="mc-icon">🏦</div><div class="mc-title">Monetary Policy</div><div class="mc-desc">How central banks control money and rates</div><div class="mc-count">Interest rates · QE · Forward guidance</div></div>
+      <div class="module-card" onclick="showPage('fiscal')"><div class="mc-icon">🏛️</div><div class="mc-title">Fiscal Policy</div><div class="mc-desc">Government spending and taxation as economic tools</div><div class="mc-count">Multiplier · Austerity · Crowding out</div></div>
+      <div class="module-card" onclick="showPage('money')"><div class="mc-icon">💰</div><div class="mc-title">Money & Banking</div><div class="mc-desc">How banks create money and what limits them</div><div class="mc-count">M0 · M1 · M2 · Money multiplier</div></div>
+      <div class="module-card" onclick="showPage('trade')"><div class="mc-icon">🌍</div><div class="mc-title">International Trade</div><div class="mc-desc">Comparative advantage, exchange rates and trade flows</div><div class="mc-count">Ricardo · PPP · Mundell-Fleming</div></div>
+      <div class="module-card" onclick="showPage('growth')"><div class="mc-icon">📈</div><div class="mc-title">Long-run Growth</div><div class="mc-desc">The Solow model and what drives living standards</div><div class="mc-count">TFP · Convergence · Endogenous growth</div></div>
+      <div class="module-card" onclick="showPage('schools')"><div class="mc-icon">🎓</div><div class="mc-title">Schools of Thought</div><div class="mc-desc">Keynes vs Friedman vs Lucas — the big debates</div><div class="mc-count">Keynesian · Monetarist · New Classical · MMT</div></div>
+      <div class="module-card" onclick="showPage('flashcards')"><div class="mc-icon">🃏</div><div class="mc-title">Flashcards</div><div class="mc-desc">Flip through all 50 key terms — test your memory</div><div class="mc-count">50 cards · Click to reveal</div></div>
+      <div class="module-card" onclick="showPage('quiz')"><div class="mc-icon">✏️</div><div class="mc-title">Mega Quiz</div><div class="mc-desc">30 questions across all topics — test everything</div><div class="mc-count">Multiple choice · Instant feedback</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ GDP ══════════════ -->
+<div id="page-gdp" class="page">
+  <div class="top-bar"><div class="top-title">📊 GDP & Output</div><div class="top-meta">Gross Domestic Product</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 1 of 10</div>
+      <div class="page-title">GDP & Economic Output</div>
+      <div class="page-sub">GDP is the total value of everything a country produces. It's the single most important number in macroeconomics.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> If you added up the price of every haircut, every car, every Netflix subscription and every government service in a country for a year — that's GDP.</div>
+    <div class="four-col" style="margin-bottom:14px">
+      <div class="metric"><div class="metric-lbl">GDP growth</div><div class="metric-val" id="gdp-m1">2.4%</div><div class="metric-sub" id="gdp-m1s" style="color:var(--green)">Expansion</div></div>
+      <div class="metric"><div class="metric-lbl">Consumer share (C)</div><div class="metric-val" id="gdp-m2">55%</div><div class="metric-sub" style="color:var(--text3)">Largest component</div></div>
+      <div class="metric"><div class="metric-lbl">Inflation impact</div><div class="metric-val" id="gdp-m3">2.1%</div><div class="metric-sub" style="color:var(--green)">Near target</div></div>
+      <div class="metric"><div class="metric-lbl">Real vs Nominal</div><div class="metric-val" id="gdp-m4">+0.3%</div><div class="metric-sub" style="color:var(--text3)">Gap (nominal − real)</div></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">GDP = C + I + G + NX — adjust the mix</div>
+        <div class="sr"><span class="sl">Consumer spending (C)</span><input type="range" min="30" max="75" value="55" step="1" id="gc" oninput="uGDP()"><span class="sv" id="vc">55%</span></div>
+        <div class="sr"><span class="sl">Investment (I)</span><input type="range" min="5" max="35" value="17" step="1" id="gi" oninput="uGDP()"><span class="sv" id="vi">17%</span></div>
+        <div class="sr"><span class="sl">Government (G)</span><input type="range" min="5" max="45" value="20" step="1" id="gg" oninput="uGDP()"><span class="sv" id="vg">20%</span></div>
+        <div class="sr"><span class="sl">Net exports (NX)</span><input type="range" min="-15" max="20" value="8" step="1" id="gnx" oninput="uGDP()"><span class="sv" id="vnx">8%</span></div>
+        <div class="insight" id="gdp-ins">Consumer spending (C) is the largest part of GDP in most economies — typically 55–70%. When consumers lose confidence, the whole economy feels it.</div>
+      </div>
+      <div>
+        <div class="legend"><span><span class="ld" style="background:#3b82f6"></span>C</span><span><span class="ld" style="background:#10b981"></span>I</span><span><span class="ld" style="background:#f59e0b"></span>G</span><span><span class="ld" style="background:#8b5cf6"></span>NX</span></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="gdpChart" role="img" aria-label="GDP components doughnut chart">GDP breakdown by component.</canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">How GDP is measured — 3 approaches</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">Expenditure approach</div><div class="cc-desc">Adds all spending: C + I + G + NX. Most commonly used. What people paid for everything.</div></div>
+        <div class="cc"><div class="cc-name">Income approach</div><div class="cc-desc">Sums all incomes: wages, profits, rents, interest. Should equal the expenditure figure.</div></div>
+        <div class="cc"><div class="cc-name">Production approach</div><div class="cc-desc">Value added at each stage of production. Avoids double-counting intermediate goods like steel.</div></div>
+        <div class="cc"><div class="cc-name">Real vs Nominal GDP</div><div class="cc-desc">Real strips out inflation. If GDP rose 5% but prices rose 3%, real growth was only 2%.</div></div>
+        <div class="cc"><div class="cc-name">GDP per capita</div><div class="cc-desc">GDP ÷ population. Shows average living standard — a better comparison between countries.</div></div>
+        <div class="cc"><div class="cc-name">PPP adjustment</div><div class="cc-desc">Adjusts for price differences between countries. £1 buys more in India than Switzerland.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ BUSINESS CYCLE ══════════════ -->
+<div id="page-cycle" class="page">
+  <div class="top-bar"><div class="top-title">🔄 Business Cycle</div><div class="top-meta">Expansion · Peak · Contraction · Trough</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 2 of 10</div>
+      <div class="page-title">The Business Cycle</div>
+      <div class="page-sub">Economies don't grow in a straight line. They expand, peak, contract and trough — over and over throughout history.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> Think of the economy like breathing — it expands (inhale) and contracts (exhale). The cycle keeps repeating, and no expansion lasts forever.</div>
+    <div class="card">
+      <div class="card-title">The cycle wave — 60 years of output</div>
+      <div class="chart-wrap" style="height:220px"><canvas id="cycleChart" role="img" aria-label="Business cycle wave showing peaks, troughs and trend">Business cycle showing output over time.</canvas></div>
+    </div>
+    <div class="tab-row" id="cycle-tabs">
+      <button class="tab active" onclick="cycleTab('expansion')">📈 Expansion</button>
+      <button class="tab" onclick="cycleTab('peak')">⛰️ Peak</button>
+      <button class="tab" onclick="cycleTab('contraction')">📉 Contraction</button>
+      <button class="tab" onclick="cycleTab('trough')">🪨 Trough</button>
+      <button class="tab" onclick="cycleTab('examples')">🌍 Real examples</button>
+      <button class="tab" onclick="cycleTab('indicators')">📡 Indicators</button>
+    </div>
+    <div id="cycle-expansion" class="tab-panel active">
+      <div class="step-card" style="border-color:var(--green)">
+        <div class="step-title">Expansion — the good times</div>
+        <div class="step-body">GDP rises, unemployment falls, businesses invest, consumers spend confidently. The economy is growing. Think of it like spring and summer — things are blooming and everyone has energy.</div>
+        <div class="step-analogy">🌱 Analogy: An expansion is like a road trip at 70mph on a clear motorway — music up, fuel full, and the whole team confident you'll reach your destination.</div>
+      </div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">📉 Unemployment falls</div><div class="cc-desc">Businesses need more workers. Job vacancies rise. The unemployed find work within weeks.</div></div>
+        <div class="cc"><div class="cc-name">💸 Consumer spending rises</div><div class="cc-desc">People with jobs and confidence spend freely — on homes, cars, holidays and restaurants.</div></div>
+        <div class="cc"><div class="cc-name">🏗️ Business investment booms</div><div class="cc-desc">Companies build new factories, buy equipment, launch products. Future output capacity grows.</div></div>
+        <div class="cc"><div class="cc-name">📈 Asset prices rise</div><div class="cc-desc">Stocks, property and commodities climb as optimism grows. Wealth effects encourage more spending.</div></div>
+        <div class="cc"><div class="cc-name">💰 Wages increase</div><div class="cc-desc">Competition for workers pushes wages up — especially late in the expansion near full employment.</div></div>
+        <div class="cc"><div class="cc-name">🏦 Credit expands</div><div class="cc-desc">Banks lend more freely. Low interest rates make borrowing cheap. Leverage builds across the economy.</div></div>
+      </div>
+    </div>
+    <div id="cycle-peak" class="tab-panel">
+      <div class="step-card" style="border-color:var(--amber)">
+        <div class="step-title">Peak — maximum output</div>
+        <div class="step-body">The economy is running at full capacity. Unemployment is near its natural rate (NAIRU). Inflation starts picking up as everyone is spending and wages are rising fast.</div>
+        <div class="step-analogy">⛰️ Analogy: You've reached the top of the hill. The view is great — but the only way forward is downhill.</div>
+      </div>
+      <div class="insight amber"><strong>Warning signs at the peak:</strong> Inflation above 3%, unemployment below NAIRU, stock market valuations at historical highs, banks lending aggressively, asset prices rising faster than incomes.</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">🔥 Inflation rises</div><div class="cc-desc">With everyone employed and spending, demand outstrips supply. Prices creep up.</div></div>
+        <div class="cc"><div class="cc-name">📊 GDP growth slows</div><div class="cc-desc">You can't keep growing indefinitely. Productivity gains slow and capacity limits are hit.</div></div>
+        <div class="cc"><div class="cc-name">🏦 Central bank acts</div><div class="cc-desc">The central bank raises interest rates to cool inflation — the classic peak signal.</div></div>
+      </div>
+    </div>
+    <div id="cycle-contraction" class="tab-panel">
+      <div class="step-card" style="border-color:var(--red)">
+        <div class="step-title">Contraction (Recession) — the hard times</div>
+        <div class="step-body">GDP falls. Two consecutive quarters of negative growth = official recession. Businesses cut investment, lay off workers, and consumer confidence collapses. The cycle's toughest phase.</div>
+        <div class="step-analogy">❄️ Analogy: Winter has arrived. Everything slows down — people stay home, spend less, and wait for spring.</div>
+      </div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">📉 GDP falls</div><div class="cc-desc">Two consecutive quarters of negative GDP growth = official recession. Output shrinks.</div></div>
+        <div class="cc"><div class="cc-name">👥 Unemployment rises</div><div class="cc-desc">Firms lay off workers to cut costs. Those workers spend less — worsening the recession.</div></div>
+        <div class="cc"><div class="cc-name">😨 Confidence collapses</div><div class="cc-desc">Uncertainty causes businesses to delay investment. Consumers save rather than spend.</div></div>
+        <div class="cc"><div class="cc-name">💳 Credit tightens</div><div class="cc-desc">Banks become cautious. Lending dries up, choking off spending and investment further.</div></div>
+      </div>
+    </div>
+    <div id="cycle-trough" class="tab-panel">
+      <div class="step-card" style="border-color:var(--purple)">
+        <div class="step-title">Trough — rock bottom and the turning point</div>
+        <div class="step-body">The lowest point of the cycle. Output, employment and confidence are at their worst. But this is also where recovery begins — the dark before the dawn. Policy stimulus kicks in.</div>
+        <div class="step-analogy">🌅 Analogy: You've been sick for weeks and feel terrible — but that's actually the turning point. Things can only get better from here.</div>
+      </div>
+      <div class="insight"><strong>At the trough:</strong> Central banks cut interest rates. Governments increase spending. Pent-up demand starts to build. The cycle turns and expansion begins again.</div>
+    </div>
+    <div id="cycle-examples" class="tab-panel">
+      <div class="timeline-item">
+        <div class="tl-dot" style="background:var(--accent-dim);color:var(--accent2)">90s</div>
+        <div class="tl-content">
+          <span class="tl-badge badge-blue">120 months</span>
+          <div class="tl-year">1991–2001: The Dotcom Boom</div>
+          <div class="tl-text">Internet commercialisation + Cold War peace dividend. Unemployment fell from 7.8% → 4%. Stock markets tripled. Ended when dot-com bubble burst — companies with no profits collapsed overnight.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot" style="background:var(--amber-dim);color:var(--amber)">00s</div>
+        <div class="tl-content">
+          <span class="tl-badge badge-amber">56 months</span>
+          <div class="tl-year">2003–2007: The Credit Bubble</div>
+          <div class="tl-text">Easy credit, housing boom in US/UK/Spain/Ireland, China driving commodity demand. Classic Minsky moment — "stability is destabilising." Ended in the worst financial crisis since 1929.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot" style="background:var(--green-dim);color:var(--green)">10s</div>
+        <div class="tl-content">
+          <span class="tl-badge badge-green">128 months — record</span>
+          <div class="tl-year">2009–2020: The Long Recovery</div>
+          <div class="tl-text">Longest ever US expansion but also slowest. Fed held rates near zero for 7 years, deployed $4 trillion QE. Unemployment fell 10% → 3.5% over 11 years. Ended abruptly by COVID-19 in Feb 2020.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot" style="background:var(--red-dim);color:var(--red)">20s</div>
+        <div class="tl-content">
+          <span class="tl-badge badge-red">2 months recession</span>
+          <div class="tl-year">2020: The COVID Crash</div>
+          <div class="tl-text">Shortest but sharpest recession on record. GDP fell 10% in one quarter. Unemployment hit 14.7% in the US. Extraordinary fiscal and monetary response — $10+ trillion globally. Recovery was surprisingly fast.</div>
+        </div>
+      </div>
+    </div>
+    <div id="cycle-indicators" class="tab-panel">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">📡 Leading indicators (predict the future)</div>
+          <div class="concept-grid" style="grid-template-columns:1fr">
+            <div class="cc"><div class="cc-name">Stock market prices</div><div class="cc-desc">Markets price in future expectations — a sustained rally often signals expansion ahead.</div></div>
+            <div class="cc"><div class="cc-name">New building permits</div><div class="cc-desc">Construction takes time — permits issued now mean jobs and output months from now.</div></div>
+            <div class="cc"><div class="cc-name">Manufacturing PMI</div><div class="cc-desc">Purchasing Managers Index above 50 = expansion. Below 50 = contraction expected.</div></div>
+            <div class="cc"><div class="cc-name">Yield curve shape</div><div class="cc-desc">An inverted yield curve (short rates > long rates) has preceded every US recession since 1969.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🕰️ Lagging indicators (confirm what happened)</div>
+          <div class="concept-grid" style="grid-template-columns:1fr">
+            <div class="cc"><div class="cc-name">Unemployment rate</div><div class="cc-desc">Rises after the recession has already started — firms wait before laying off workers.</div></div>
+            <div class="cc"><div class="cc-name">CPI inflation</div><div class="cc-desc">Reflects price pressures that built up over months. Slow to respond to policy changes.</div></div>
+            <div class="cc"><div class="cc-name">GDP growth figures</div><div class="cc-desc">Published weeks after the quarter ends — you find out you were in recession after the fact.</div></div>
+            <div class="cc"><div class="cc-name">Bank loan volumes</div><div class="cc-desc">Lending rises in expansion, falls in recession — confirms the direction after the move.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ INFLATION ══════════════ -->
+<div id="page-inflation" class="page">
+  <div class="top-bar"><div class="top-title">🔥 Inflation</div><div class="top-meta">CPI · PCE · Demand-pull · Cost-push</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 3 of 10</div>
+      <div class="page-title">Inflation & Prices</div>
+      <div class="page-sub">Inflation is the rate at which prices rise across the economy. A little is healthy. Too much is devastating.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> If your weekly shop cost £100 last year and costs £102 this year, that's 2% inflation. Central banks target 2% as the sweet spot — enough momentum without eroding purchasing power.</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Inflation simulator — adjust the drivers</div>
+        <div class="sr"><span class="sl">Money supply growth</span><input type="range" min="0" max="25" value="4" step="1" id="imoney" oninput="uInf()"><span class="sv" id="vimoney">4%</span></div>
+        <div class="sr"><span class="sl">Demand-pull pressure</span><input type="range" min="-5" max="15" value="2" step="1" id="idem" oninput="uInf()"><span class="sv" id="videm">+2%</span></div>
+        <div class="sr"><span class="sl">Supply shock (negative)</span><input type="range" min="-10" max="5" value="0" step="1" id="isup" oninput="uInf()"><span class="sv" id="visup">0%</span></div>
+        <div class="sr"><span class="sl">Wage-price spiral</span><input type="range" min="0" max="10" value="0" step="1" id="iwage" oninput="uInf()"><span class="sv" id="viwage">0%</span></div>
+        <div class="insight" id="inf-ins">Inflation near 2% — healthy zone. The 2% target gives enough room to cut rates in a recession without risking deflation.</div>
+      </div>
+      <div>
+        <div class="legend"><span><span class="ld" style="background:#ef4444"></span>Inflation rate</span><span><span class="ld" style="background:#888;border:1px dashed #888"></span>2% target</span></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="infChart" role="img" aria-label="Inflation rate bar chart with 2% target line">Inflation over 8 periods.</canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Types of inflation — understanding the causes</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">🛒 Demand-pull</div><div class="cc-desc">Too much money chasing too few goods. Economy overheating — everyone is spending freely. Classic late-expansion inflation.</div></div>
+        <div class="cc"><div class="cc-name">⛽ Cost-push</div><div class="cc-desc">Supply shocks raise production costs (oil, wages, materials). Firms pass costs to consumers. Harder for central banks to fix.</div></div>
+        <div class="cc"><div class="cc-name">🔄 Built-in / wage-price spiral</div><div class="cc-desc">Workers expect inflation, demand higher wages. Firms raise prices to cover wages. Self-fulfilling cycle — hard to break.</div></div>
+        <div class="cc"><div class="cc-name">🖨️ Monetary inflation</div><div class="cc-desc">Printing too much money increases M without increasing Q. Prices must rise (MV = PQ). Zimbabwe and Weimar Germany.</div></div>
+        <div class="cc"><div class="cc-name">❄️ Deflation</div><div class="cc-desc">Falling prices. Sounds good but causes consumers to delay spending. Can trap economies like Japan's Lost Decade.</div></div>
+        <div class="cc"><div class="cc-name">💥 Hyperinflation</div><div class="cc-desc">Extreme inflation (>50%/month). Trust in currency collapses. Zimbabwe 2008: 89 sextillion percent annual inflation.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Real-world inflation events — click to study</div>
+      <div class="scen-grid">
+        <div class="scen-btn">🛢️ 1973 Oil Shock — cost-push inflation hit 14% in US</div>
+        <div class="scen-btn">🇩🇪 1923 Weimar — bread cost 200 billion marks</div>
+        <div class="scen-btn">🇯🇵 1990s Japan — deflation trap for 20 years</div>
+        <div class="scen-btn">🦠 2021–23 — post-COVID demand surge + supply chains</div>
+        <div class="scen-btn">🇿🇼 Zimbabwe 2008 — 89 sextillion % hyperinflation</div>
+        <div class="scen-btn">🏦 1981 Volcker — raised rates to 20% to kill inflation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ UNEMPLOYMENT ══════════════ -->
+<div id="page-unemployment" class="page">
+  <div class="top-bar"><div class="top-title">👥 Unemployment</div><div class="top-meta">Phillips Curve · NAIRU · Types</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 4 of 10</div>
+      <div class="page-title">Unemployment & Labour Markets</div>
+      <div class="page-sub">Not all unemployment is the same. Understanding the different types is key to knowing what policy can actually fix.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> Some unemployment is actually normal and healthy (people between jobs). The dangerous kind is cyclical unemployment caused by recessions — that's what governments and central banks try to fix.</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Phillips Curve simulator</div>
+        <div class="sr"><span class="sl">Economic stimulus</span><input type="range" min="-5" max="10" value="0" step="1" id="ustim" oninput="uUnemp()"><span class="sv" id="vustim">Neutral</span></div>
+        <div class="sr"><span class="sl">Labour market flexibility</span><input type="range" min="1" max="10" value="5" step="1" id="uflex" oninput="uUnemp()"><span class="sv" id="vuflex">5/10</span></div>
+        <div class="insight" id="unemp-ins">Near NAIRU — the natural rate. Some unemployment always exists from people switching jobs or retraining. This can't be eliminated by policy.</div>
+      </div>
+      <div>
+        <div class="legend"><span><span class="ld" style="background:#8b5cf6"></span>Phillips curve</span><span><span class="ld" style="background:#ef4444"></span>Current position</span><span><span class="ld" style="background:#888780"></span>NAIRU</span></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="unempChart" role="img" aria-label="Phillips curve scatter chart showing unemployment vs inflation tradeoff">Phillips curve.</canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Types of unemployment — very different causes and cures</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">🔍 Frictional</div><div class="cc-desc">Workers between jobs — searching for better opportunities. Normal and healthy. Part of the natural rate. Can last weeks.</div></div>
+        <div class="cc"><div class="cc-name">⚙️ Structural</div><div class="cc-desc">Skills mismatch — jobs exist but workers can't do them. Caused by automation, industry shifts. Needs retraining, not stimulus.</div></div>
+        <div class="cc"><div class="cc-name">📉 Cyclical</div><div class="cc-desc">Caused by recessions — falls in demand reduce hiring. The main target of fiscal and monetary policy stimulus.</div></div>
+        <div class="cc"><div class="cc-name">🌊 Seasonal</div><div class="cc-desc">Regular patterns tied to seasons — tourism, agriculture, construction. Predictable and not caused by economic weakness.</div></div>
+        <div class="cc"><div class="cc-name">📊 NAIRU</div><div class="cc-desc">Non-Accelerating Inflation Rate — the floor below which unemployment can't fall without inflation accelerating (~4–5%).</div></div>
+        <div class="cc"><div class="cc-name">👀 Participation rate</div><div class="cc-desc">% of working-age people in the workforce. Falls in recessions as discouraged workers give up looking — masking true joblessness.</div></div>
+      </div>
+    </div>
+    <div class="insight amber"><strong>The long-run Phillips curve:</strong> In the short run, lower unemployment = higher inflation. But in the long run, this tradeoff disappears. Friedman and Phelps (1968) showed the curve is vertical at NAIRU — you cannot permanently trade inflation for jobs.</div>
+  </div>
+</div>
+
+<!-- ══════════════ MONETARY ══════════════ -->
+<div id="page-monetary" class="page">
+  <div class="top-bar"><div class="top-title">🏦 Monetary Policy</div><div class="top-meta">Interest rates · QE · Forward guidance</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 5 of 10</div>
+      <div class="page-title">Monetary Policy</div>
+      <div class="page-sub">Central banks — the Fed, Bank of England, ECB — use interest rates and money supply to stabilise prices and support growth.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> When inflation is too high, the central bank raises rates — making borrowing expensive so people spend less. When the economy is weak, it cuts rates — making borrowing cheap to encourage spending and investment.</div>
+    <div class="card">
+      <div class="card-title">Central bank simulator — set policy and see the effects</div>
+      <div class="two-col">
+        <div>
+          <div class="sr"><span class="sl">Policy interest rate</span><input type="range" min="0" max="18" value="4.5" step="0.5" id="mrate" oninput="uMonetary()"><span class="sv" id="vmrate">4.5%</span></div>
+          <div class="sr"><span class="sl">Quantitative easing</span><input type="range" min="0" max="10" value="0" step="1" id="mqe" oninput="uMonetary()"><span class="sv" id="vmqe">Off</span></div>
+          <div class="sr"><span class="sl">Reserve requirements</span><input type="range" min="1" max="20" value="10" step="1" id="mreserve" oninput="uMonetary()"><span class="sv" id="vmreserve">10%</span></div>
+          <div class="sr"><span class="sl">Forward guidance</span><input type="range" min="-5" max="5" value="0" step="1" id="mfwd" oninput="uMonetary()"><span class="sv" id="vmfwd">Neutral</span></div>
+          <div class="insight" id="monetary-ins">Rate at 4.5% — moderately tight. Borrowing is somewhat expensive, cooling inflation while keeping growth positive.</div>
+          <div class="scen-grid" style="margin-top:10px">
+            <div class="scen-btn" onclick="setMonetary(0.25,8,10,0)">📉 2009 crisis — near-zero + QE</div>
+            <div class="scen-btn" onclick="setMonetary(7.5,0,10,0)">🔥 2022 inflation fight</div>
+            <div class="scen-btn" onclick="setMonetary(18,0,20,-3)">💪 1981 Volcker shock</div>
+            <div class="scen-btn" onclick="setMonetary(2,5,10,3)">🚀 2021 COVID stimulus</div>
+          </div>
+        </div>
+        <div>
+          <div class="legend"><span><span class="ld" style="background:#3b82f6"></span>GDP</span><span><span class="ld" style="background:#ef4444"></span>Inflation</span><span><span class="ld" style="background:#8b5cf6"></span>Unemployment</span></div>
+          <div class="chart-wrap" style="height:210px"><canvas id="monetaryChart" role="img" aria-label="Bar chart showing monetary policy effects">Monetary policy effects on GDP, inflation, unemployment.</canvas></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Monetary policy tools explained simply</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">📊 Interest rates</div><div class="cc-desc">The primary tool. Raise = cool economy, fight inflation. Cut = stimulate growth. Works through credit channel with 12–18 month lag.</div></div>
+        <div class="cc"><div class="cc-name">🖨️ Quantitative easing</div><div class="cc-desc">Central bank buys government bonds, injecting cash into the system. Used when rates are already at zero. Pushes down long-term rates.</div></div>
+        <div class="cc"><div class="cc-name">📢 Forward guidance</div><div class="cc-desc">"We plan to keep rates low until 2026." This promise itself is stimulative — businesses plan accordingly without rates changing yet.</div></div>
+        <div class="cc"><div class="cc-name">🏦 Reserve requirements</div><div class="cc-desc">Minimum % banks must hold in reserve. Higher = banks lend less = slower money creation. Less used today than rates.</div></div>
+        <div class="cc"><div class="cc-name">🔄 Open market operations</div><div class="cc-desc">Daily buying and selling of short-term bonds to keep the overnight rate at the target. How rates are actually implemented.</div></div>
+        <div class="cc"><div class="cc-name">🛡️ Lender of last resort</div><div class="cc-desc">In a crisis, the central bank lends freely to solvent banks. Prevents bank runs from becoming full financial collapse.</div></div>
+        <div class="cc"><div class="cc-name">📐 Taylor rule</div><div class="cc-desc">Formula: ideal rate = 2% + 1.5×(inflation − 2%) + 0.5×(output gap). A guide, not a law — but useful for evaluating policy.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FISCAL ══════════════ -->
+<div id="page-fiscal" class="page">
+  <div class="top-bar"><div class="top-title">🏛️ Fiscal Policy</div><div class="top-meta">Spending · Taxation · Multiplier</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 6 of 10</div>
+      <div class="page-title">Fiscal Policy</div>
+      <div class="page-sub">Governments use spending and taxation to manage the economy. Unlike monetary policy, fiscal policy requires political decisions — and takes time to implement.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> If the economy is sick (recession), the government acts like a doctor — spending more money and cutting taxes to inject energy. If it's overheating, it does the opposite.</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Fiscal policy simulator</div>
+        <div class="sr"><span class="sl">Government spending (ΔG)</span><input type="range" min="-15" max="25" value="0" step="1" id="fgov" oninput="uFiscal()"><span class="sv" id="vfgov">0%</span></div>
+        <div class="sr"><span class="sl">Tax rate change</span><input type="range" min="-10" max="15" value="0" step="1" id="ftax" oninput="uFiscal()"><span class="sv" id="vftax">0%</span></div>
+        <div class="sr"><span class="sl">Fiscal multiplier</span><input type="range" min="0.5" max="3" value="1.5" step="0.1" id="fmult" oninput="uFiscal()"><span class="sv" id="vfmult">1.5×</span></div>
+        <div class="insight" id="fiscal-ins">Neutral stance — no stimulus or contraction. The multiplier (1.5×) shows how much GDP rises per £1 of government spending.</div>
+      </div>
+      <div>
+        <div class="legend"><span><span class="ld" style="background:#10b981"></span>GDP impact</span><span><span class="ld" style="background:#ef4444"></span>Deficit effect</span></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="fiscalChart" role="img" aria-label="Fiscal policy impact bar chart">Fiscal impact on GDP and deficit.</canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Key fiscal concepts</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">📈 Expansionary fiscal</div><div class="cc-desc">More spending + tax cuts. Used in recessions. Raises deficit. Keynes' prescription: "spend now, worry about debt later."</div></div>
+        <div class="cc"><div class="cc-name">📉 Contractionary fiscal</div><div class="cc-desc">Cut spending + raise taxes. Reduces deficit but can deepen recession. Used to fight inflation or restore market confidence.</div></div>
+        <div class="cc"><div class="cc-name">⚡ Automatic stabilisers</div><div class="cc-desc">Benefits rise, taxes fall automatically in recessions — cushioning the blow without any new legislation.</div></div>
+        <div class="cc"><div class="cc-name">🏗️ Crowding out</div><div class="cc-desc">Heavy government borrowing raises rates, reducing private investment. Partially offsets the stimulus effect.</div></div>
+        <div class="cc"><div class="cc-name">🧮 Ricardian equivalence</div><div class="cc-desc">Barro: rational people save stimulus money expecting future tax rises. If true, fiscal policy is largely ineffective.</div></div>
+        <div class="cc"><div class="cc-name">📊 Debt sustainability</div><div class="cc-desc">Sustainable if g > r (growth rate > interest rate). Japan: 250% debt/GDP but still functioning because r ≈ 0.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ MONEY & BANKING ══════════════ -->
+<div id="page-money" class="page">
+  <div class="top-bar"><div class="top-title">💰 Money & Banking</div><div class="top-meta">M0 · M1 · M2 · Money multiplier</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 7 of 10</div>
+      <div class="page-title">Money, Banking & Credit</div>
+      <div class="page-sub">Most money doesn't come from central banks — it's created by commercial banks every time they make a loan.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> When a bank lends you £1,000, it doesn't take that from another customer's account. It creates new money — literally typing numbers into a computer. This is how 97% of money is created.</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Money multiplier — how one deposit becomes many</div>
+        <div class="sr"><span class="sl">Initial deposit (£)</span><input type="range" min="100" max="10000" value="1000" step="100" id="mdeposit" oninput="uMoney()"><span class="sv" id="vmdeposit">£1,000</span></div>
+        <div class="sr"><span class="sl">Reserve ratio (%)</span><input type="range" min="1" max="30" value="10" step="1" id="mres" oninput="uMoney()"><span class="sv" id="vmres">10%</span></div>
+        <div class="insight" id="money-ins">With 10% reserves, £1,000 creates up to £10,000 in broad money. The multiplier = 1 ÷ reserve ratio.</div>
+        <div class="formula">Multiplier = 1 ÷ Reserve ratio = 1 ÷ 0.10 = 10×</div>
+      </div>
+      <div>
+        <div class="legend"><span><span class="ld" style="background:#3b82f6"></span>Total money supply</span><span><span class="ld" style="background:#10b981"></span>Initial deposit</span></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="moneyChart" role="img" aria-label="Money multiplier bar chart showing rounds of lending">Money creation through lending rounds.</canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Types of money — from narrow to broad</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">💵 M0 (monetary base)</div><div class="cc-desc">Physical cash + bank reserves at the central bank. Directly controlled by the central bank. The foundation.</div></div>
+        <div class="cc"><div class="cc-name">💳 M1</div><div class="cc-desc">M0 + demand deposits (current accounts). Most liquid. What you actually spend day to day.</div></div>
+        <div class="cc"><div class="cc-name">💰 M2</div><div class="cc-desc">M1 + savings accounts, money market funds. Broader. Useful for predicting medium-term inflation.</div></div>
+        <div class="cc"><div class="cc-name">🔄 Velocity of money</div><div class="cc-desc">How many times each £ changes hands per year. MV = PQ. If V falls, more money may not raise prices.</div></div>
+        <div class="cc"><div class="cc-name">🏛️ Lender of last resort</div><div class="cc-desc">Central bank provides emergency funds to prevent bank runs spreading. "Lend freely at penalty rates" — Bagehot 1873.</div></div>
+        <div class="cc"><div class="cc-name">💸 Seigniorage</div><div class="cc-desc">Government profit from issuing currency. Printing money is effectively a tax on holders of cash (inflation tax).</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TRADE ══════════════ -->
+<div id="page-trade" class="page">
+  <div class="top-bar"><div class="top-title">🌍 International Trade</div><div class="top-meta">Ricardo · PPP · Exchange rates</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 8 of 10</div>
+      <div class="page-title">International Trade & Exchange Rates</div>
+      <div class="page-sub">Ricardo's comparative advantage showed that trade benefits everyone — even if one country is better at making everything.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> Even if you're better at cooking AND cleaning than your flatmate, it's still worth specialising — you cook, they clean. Both of you end up better off. That's comparative advantage.</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Trade flow simulator</div>
+        <div class="sr"><span class="sl">Export growth</span><input type="range" min="-10" max="20" value="4" step="1" id="tex" oninput="uTrade()"><span class="sv" id="vtex">+4%</span></div>
+        <div class="sr"><span class="sl">Import growth</span><input type="range" min="-10" max="20" value="5" step="1" id="tim" oninput="uTrade()"><span class="sv" id="vtim">+5%</span></div>
+        <div class="sr"><span class="sl">Currency (stronger → weaker)</span><input type="range" min="-10" max="10" value="0" step="1" id="tfx" oninput="uTrade()"><span class="sv" id="vtfx">Neutral</span></div>
+        <div class="insight" id="trade-ins">Trade roughly balanced. A weaker currency makes exports cheaper and imports more expensive — improving the trade balance over time.</div>
+      </div>
+      <div>
+        <div class="legend"><span><span class="ld" style="background:#3b82f6"></span>Exports</span><span><span class="ld" style="background:#ef4444"></span>Imports</span><span><span class="ld" style="background:#10b981"></span>Balance</span></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="tradeChart" role="img" aria-label="Trade flows bar chart">Exports, imports and trade balance.</canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Key trade concepts</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">⚖️ Comparative advantage</div><div class="cc-desc">Specialise in what you're relatively best at. Even if Portugal makes everything better than England, trade still benefits both.</div></div>
+        <div class="cc"><div class="cc-name">📊 Balance of payments</div><div class="cc-desc">Current account (trade) + Capital account (investment flows). Must sum to zero — every deficit is financed somewhere.</div></div>
+        <div class="cc"><div class="cc-name">💱 Exchange rate regimes</div><div class="cc-desc">Fixed (pegged), floating (market-determined), or managed float. Each has different tradeoffs for monetary independence.</div></div>
+        <div class="cc"><div class="cc-name">🔍 Purchasing power parity</div><div class="cc-desc">Adjusting for price differences so you can fairly compare incomes across countries. A Big Mac costs different in NY vs Mumbai.</div></div>
+        <div class="cc"><div class="cc-name">📈 J-curve effect</div><div class="cc-desc">After currency weakens, trade balance worsens before improving — import prices rise immediately, export volumes take time to adjust.</div></div>
+        <div class="cc"><div class="cc-name">🌐 Mundell-Fleming</div><div class="cc-desc">Fixed rates: monetary policy is powerless. Floating rates: fiscal policy is weakened. Can't have open capital + fixed rate + independent monetary policy simultaneously.</div></div>
+        <div class="cc"><div class="cc-name">🛡️ Tariffs & quotas</div><div class="cc-desc">Tariffs tax imports; quotas limit volumes. Protect domestic producers but raise prices for consumers and invite retaliation.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ GROWTH ══════════════ -->
+<div id="page-growth" class="page">
+  <div class="top-bar"><div class="top-title">📈 Long-run Growth</div><div class="top-meta">Solow model · TFP · Convergence</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 9 of 10</div>
+      <div class="page-title">Long-run Economic Growth</div>
+      <div class="page-sub">The Solow model shows that capital accumulation alone can't sustain growth. Only technology (TFP) drives long-run increases in living standards.</div>
+    </div>
+    <div class="insight green"><strong>Simple version:</strong> Imagine hiring more workers for a farm. The first 10 make a huge difference. The next 10 help a bit. By the 100th worker, you're running out of space. That's diminishing returns — why you can't just keep adding capital and expect growth to continue forever.</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Solow model simulator</div>
+        <div class="sr"><span class="sl">Savings rate (s)</span><input type="range" min="5" max="60" value="25" step="1" id="gs" oninput="uGrowth()"><span class="sv" id="vgs">25%</span></div>
+        <div class="sr"><span class="sl">Population growth (n)</span><input type="range" min="0" max="5" value="1" step="0.1" id="gn" oninput="uGrowth()"><span class="sv" id="vgn">1.0%</span></div>
+        <div class="sr"><span class="sl">Depreciation (δ)</span><input type="range" min="1" max="15" value="5" step="1" id="gd" oninput="uGrowth()"><span class="sv" id="vgd">5%</span></div>
+        <div class="sr"><span class="sl">Technology growth (A)</span><input type="range" min="0" max="5" value="1.5" step="0.1" id="ga" oninput="uGrowth()"><span class="sv" id="vga">1.5%</span></div>
+        <div class="insight" id="growth-ins">Only technology (A) drives long-run per-capita growth. Capital accumulation brings you to a steady state — but technology keeps raising that ceiling.</div>
+      </div>
+      <div>
+        <div class="legend"><span><span class="ld" style="background:#3b82f6"></span>Capital/worker</span><span><span class="ld" style="background:#10b981"></span>GDP/worker</span></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="growthChart" role="img" aria-label="Solow model line chart showing convergence to steady state">Solow growth model: capital and output per worker over time.</canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Growth theories explained</div>
+      <div class="concept-grid">
+        <div class="cc"><div class="cc-name">🔩 Solow model</div><div class="cc-desc">Growth = capital + labour + technology (TFP). Only TFP sustains long-run growth. Capital hits diminishing returns.</div></div>
+        <div class="cc"><div class="cc-name">🧠 TFP (Solow residual)</div><div class="cc-desc">The "magic ingredient" — growth not explained by inputs. Innovation, better institutions, new ideas.</div></div>
+        <div class="cc"><div class="cc-name">📉 Diminishing returns</div><div class="cc-desc">Each extra unit of capital adds less and less output. The reason poor countries can grow faster than rich ones.</div></div>
+        <div class="cc"><div class="cc-name">🏃 Convergence</div><div class="cc-desc">Poor countries should grow faster (less diminishing returns) and "catch up" to rich countries over time.</div></div>
+        <div class="cc"><div class="cc-name">💡 Endogenous growth</div><div class="cc-desc">Romer: ideas have increasing returns — one idea can be used by everyone simultaneously. R&D can sustain growth indefinitely.</div></div>
+        <div class="cc"><div class="cc-name">🏛️ Institutions matter</div><div class="cc-desc">Acemoglu & Robinson: property rights, rule of law, inclusive political systems explain most income differences between countries.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCHOOLS ══════════════ -->
+<div id="page-schools" class="page">
+  <div class="top-bar"><div class="top-title">🎓 Schools of Thought</div><div class="top-meta">Keynes · Friedman · Lucas · Hayek</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Topic 10 of 10</div>
+      <div class="page-title">Schools of Economic Thought</div>
+      <div class="page-sub">Economists disagree — a lot. These are the major schools of thought that have shaped how governments and central banks manage economies.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">The major schools — click any to explore deeper</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px">
+        <div class="school-card" onclick="showSchool('keynesian')">
+          <div class="school-name" style="color:#3b82f6">Keynesian Economics</div>
+          <div class="school-thinker">John Maynard Keynes, 1936</div>
+          <div class="school-desc">Government must intervene in recessions. Prices are sticky. Markets don't self-correct quickly. Active fiscal policy essential.</div>
+          <div class="school-quote">"In the long run we are all dead."</div>
+        </div>
+        <div class="school-card" onclick="showSchool('monetarism')">
+          <div class="school-name" style="color:#f59e0b">Monetarism</div>
+          <div class="school-thinker">Milton Friedman, 1950s–70s</div>
+          <div class="school-desc">Inflation is always a monetary phenomenon. Rules over discretion. Stable money supply growth. Natural rate of unemployment.</div>
+          <div class="school-quote">"Inflation is always and everywhere a monetary phenomenon."</div>
+        </div>
+        <div class="school-card" onclick="showSchool('newclassical')">
+          <div class="school-name" style="color:#8b5cf6">New Classical</div>
+          <div class="school-thinker">Lucas, Sargent, Barro — 1970s</div>
+          <div class="school-desc">Rational expectations. Markets clear instantly. Anticipated policy is ineffective — people adjust behaviour pre-emptively.</div>
+          <div class="school-quote">"You can't fool all the people all the time."</div>
+        </div>
+        <div class="school-card" onclick="showSchool('newkeynesian')">
+          <div class="school-name" style="color:#10b981">New Keynesian</div>
+          <div class="school-thinker">Mankiw, Romer, Woodford — 1980s+</div>
+          <div class="school-desc">Rational expectations + sticky prices. DSGE models. The mainstream central bank framework today. Policy still works.</div>
+          <div class="school-quote">Today's central banking consensus.</div>
+        </div>
+        <div class="school-card" onclick="showSchool('supplyside')">
+          <div class="school-name" style="color:#ef4444">Supply-side</div>
+          <div class="school-thinker">Laffer, Mundell — Reagan/Thatcher era</div>
+          <div class="school-desc">Cut taxes and deregulate to grow the supply side. Benefits "trickle down." Laffer curve: lower rates can raise revenue.</div>
+          <div class="school-quote">"A rising tide lifts all boats."</div>
+        </div>
+        <div class="school-card" onclick="showSchool('austrian')">
+          <div class="school-name" style="color:#14b8a6">Austrian Economics</div>
+          <div class="school-thinker">Hayek, von Mises — early 20th century</div>
+          <div class="school-desc">Markets know best. Prices carry vital information. Low rates cause malinvestment. Let recessions clear naturally.</div>
+          <div class="school-quote">"The curious task of economics is to demonstrate to men how little they really know."</div>
+        </div>
+        <div class="school-card" onclick="showSchool('mmt')">
+          <div class="school-name" style="color:#f59e0b">Modern Monetary Theory</div>
+          <div class="school-thinker">Kelton, Mosler, Wray — contemporary</div>
+          <div class="school-desc">Currency-issuing governments can't go bankrupt in their own currency. The real constraint is inflation, not money. Tax drains money.</div>
+          <div class="school-quote">"The government's deficit is the non-government sector's surplus."</div>
+        </div>
+        <div class="school-card" onclick="showSchool('postkeynesian')">
+          <div class="school-name" style="color:#888780">Post-Keynesian</div>
+          <div class="school-thinker">Minsky, Kalecki, Davidson</div>
+          <div class="school-desc">Financial instability is endogenous. "Stability is destabilising." Demand-led growth. Banks and debt matter fundamentally.</div>
+          <div class="school-quote">"Stability is destabilising." — Hyman Minsky</div>
+        </div>
+      </div>
+    </div>
+    <div class="insight amber"><strong>The big debate:</strong> When a recession hits, Keynesians say "spend more." Monetarists say "stabilise money supply." New Classicals say "nothing will work if anticipated." Austrians say "let it clear." MMT says "spend as much as needed until inflation appears." All have real-world evidence for and against.</div>
+  </div>
+</div>
+
+<!-- ══════════════ GLOSSARY ══════════════ -->
+<div id="page-glossary" class="page">
+  <div class="top-bar"><div class="top-title">📖 Full Glossary</div><div class="top-meta">50 keywords · click any to expand</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Study tool</div>
+      <div class="page-title">Complete Macroeconomics Glossary</div>
+      <div class="page-sub">50 key terms, all in plain English. Search, filter by topic, and click any card to see a full explanation with real examples.</div>
+    </div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" id="gsearch" placeholder="Search any keyword… e.g. inflation, GDP, multiplier" oninput="renderGlossary()"></div>
+    <div class="cat-tabs" id="gcat-tabs"></div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-family:var(--mono)" id="gcount">50 keywords</div>
+    <div class="kw-grid" id="gkw-grid"></div>
+  </div>
+</div>
+
+<!-- ══════════════ FLASHCARDS ══════════════ -->
+<div id="page-flashcards" class="page">
+  <div class="top-bar"><div class="top-title">🃏 Flashcards</div><div class="top-meta">Click card to flip · Use arrows to navigate</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Study tool</div>
+      <div class="page-title">Flashcards</div>
+      <div class="page-sub">Click the card to reveal the definition. Use the arrows to move through all 50 terms.</div>
+    </div>
+    <div style="max-width:560px;margin:0 auto">
+      <div class="flashcard-wrap">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <div class="fc-face fc-front">
+            <div class="fc-hint">Click to reveal definition</div>
+            <div class="fc-word" id="fc-word">GDP</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:8px" id="fc-cat">Core concepts</div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-short" id="fc-short">The total monetary value of all goods and services produced in a country in one year. The main measure of economic size.</div>
+            <div class="fc-eg" id="fc-eg">Real example: If the UK produces £2.3 trillion of goods and services, that's its GDP. Growing GDP = growing economy.</div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-nav">
+        <button class="btn" onclick="fcNav(-1)">← Previous</button>
+        <span class="fc-count" id="fc-count">1 / 50</span>
+        <button class="btn" onclick="fcNav(1)">Next →</button>
+      </div>
+      <div style="margin-top:16px">
+        <div class="score-bar"><div class="score-fill" id="fc-prog" style="width:2%"></div></div>
+        <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:4px">Progress through deck</div>
+      </div>
+      <div class="btn-group" style="justify-content:center;margin-top:14px">
+        <button class="btn" onclick="shuffleCards()">🔀 Shuffle deck</button>
+        <button class="btn" onclick="fcIdx=0;renderCard()">↺ Restart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ QUIZ ══════════════ -->
+<div id="page-quiz" class="page">
+  <div class="top-bar"><div class="top-title">✏️ Mega Quiz</div><div class="top-meta">30 questions · all topics</div></div>
+  <div style="padding:28px 32px">
+    <div class="page-header">
+      <div class="page-eyebrow">Study tool</div>
+      <div class="page-title">Macroeconomics Mega Quiz</div>
+      <div class="page-sub">30 questions covering all 10 topics. Test everything you've learned.</div>
+    </div>
+    <div style="max-width:680px">
+      <div id="quiz-start">
+        <div class="card" style="text-align:center;padding:40px">
+          <div style="font-size:36px;margin-bottom:12px">✏️</div>
+          <div style="font-family:var(--display);font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px">Ready to test yourself?</div>
+          <div style="font-size:13px;color:var(--text3);margin-bottom:24px">30 questions · Multiple choice · Instant feedback · Score at the end</div>
+          <button class="btn btn-primary" onclick="startQuiz()" style="font-size:14px;padding:10px 28px">Start Quiz →</button>
+        </div>
+      </div>
+      <div id="quiz-active" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <span style="font-size:12px;color:var(--text3);font-family:var(--mono)" id="quiz-prog-lbl">Question 1 of 30</span>
+          <span style="font-size:12px;font-family:var(--mono);color:var(--green)">Score: <span id="quiz-score-live">0</span></span>
+        </div>
+        <div class="score-bar"><div class="score-fill" id="quiz-prog-bar" style="width:3.3%"></div></div>
+        <div class="card" style="margin-top:14px">
+          <div class="quiz-num" id="qnum">Q1 · GDP & Output</div>
+          <div class="quiz-q" id="qtext">What does GDP stand for?</div>
+          <div id="qopts"></div>
+          <div class="quiz-fb" id="qfb"></div>
+          <div class="quiz-nav">
+            <span></span>
+            <button class="btn btn-primary" id="qnext" onclick="nextQuestion()" style="display:none">Next question →</button>
+          </div>
+        </div>
+      </div>
+      <div id="quiz-end" style="display:none">
+        <div class="card" style="text-align:center;padding:40px">
+          <div style="font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:6px">YOUR SCORE</div>
+          <div class="score-display" id="final-score">24 / 30</div>
+          <div style="font-size:14px;color:var(--text2);margin-bottom:20px" id="score-msg">Great work!</div>
+          <div class="score-bar" style="max-width:300px;margin:0 auto 20px"><div class="score-fill" id="final-bar" style="width:80%"></div></div>
+          <button class="btn btn-primary" onclick="restartQuiz()" style="font-size:14px;padding:10px 28px">Try again →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .main -->
+
+<script>
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+const visited = new Set(['home']);
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b => {
+    if (b.textContent.toLowerCase().includes(id === 'home' ? 'home' : id.substring(0,4))) b.classList.add('active');
+  });
+  visited.add(id);
+  document.getElementById('prog-count').textContent = visited.size;
+  document.getElementById('prog-fill').style.width = Math.round((visited.size / 13) * 100) + '%';
+  if (id === 'glossary' && !window.glossaryBuilt) { buildGlossary(); window.glossaryBuilt = true; }
+  if (id === 'flashcards' && !window.fcBuilt) { buildFlashcards(); window.fcBuilt = true; }
+  if (id === 'quiz' && !window.quizBuilt) { buildQuizData(); window.quizBuilt = true; }
+  window.scrollTo(0, 0);
+  initChartForPage(id);
+}
+
+function cycleTab(name) {
+  document.querySelectorAll('#cycle-tabs .tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('[id^="cycle-"]').forEach(p => p.classList.remove('active'));
+  document.getElementById('cycle-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+// CHART DEFAULTS
+// ═══════════════════════════════════════════
+const tc = { color: '#4d6280', font: { size: 10 } };
+const gc = 'rgba(99,131,184,0.08)';
+const charts = {};
+
+function initChartForPage(id) {
+  if (id === 'gdp' && !charts.gdp) { buildGDPChart(); uGDP(); }
+  if (id === 'cycle' && !charts.cycle) buildCycleChart();
+  if (id === 'inflation' && !charts.inf) { buildInfChart(); uInf(); }
+  if (id === 'unemployment' && !charts.unemp) { buildUnempChart(); uUnemp(); }
+  if (id === 'monetary' && !charts.mon) { buildMonetaryChart(); uMonetary(); }
+  if (id === 'fiscal' && !charts.fiscal) { buildFiscalChart(); uFiscal(); }
+  if (id === 'money' && !charts.money) { buildMoneyChart(); uMoney(); }
+  if (id === 'trade' && !charts.trade) { buildTradeChart(); uTrade(); }
+  if (id === 'growth' && !charts.growth) { buildGrowthChart(); uGrowth(); }
+}
+
+// ═══════════════════════════════════════════
+// GDP CHART
+// ═══════════════════════════════════════════
+function buildGDPChart() {
+  charts.gdp = new Chart(document.getElementById('gdpChart').getContext('2d'), {
+    type: 'doughnut',
+    data: { labels: ['C', 'I', 'G', 'NX'], datasets: [{ data: [55, 17, 20, 8], backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'], borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false } } }
+  });
+}
+function uGDP() {
+  const c = +document.getElementById('gc').value, i = +document.getElementById('gi').value,
+    g = +document.getElementById('gg').value, nx = +document.getElementById('gnx').value;
+  ['vc','vi','vg','vnx'].forEach((id, idx) => document.getElementById(id).textContent = [c,i,g,nx][idx] + '%');
+  if (charts.gdp) { charts.gdp.data.datasets[0].data = [c, i, g, Math.max(0, nx)]; charts.gdp.update(); }
+  const gdp = parseFloat((2.4 + (c-55)*0.04 + (i-17)*0.07 + (g-20)*0.03 + nx*0.02).toFixed(1));
+  const inf = parseFloat(Math.max(0, 2.1 + (c-55)*0.02 + (g-20)*0.02).toFixed(1));
+  document.getElementById('gdp-m1').textContent = gdp + '%';
+  document.getElementById('gdp-m1s').textContent = gdp < 0 ? 'Recession' : gdp < 1 ? 'Stagnation' : 'Expansion';
+  document.getElementById('gdp-m1s').style.color = gdp < 0 ? 'var(--red)' : gdp < 1 ? 'var(--amber)' : 'var(--green)';
+  document.getElementById('gdp-m2').textContent = c + '%';
+  document.getElementById('gdp-m3').textContent = inf + '%';
+  document.getElementById('gdp-m4').textContent = '+' + (inf - 0.3).toFixed(1) + '%';
+  document.getElementById('gdp-ins').innerHTML = nx < -5 ? 'A large trade deficit drags on GDP — the country is spending more abroad than it earns from exports.' : g > 35 ? 'Very high government spending boosts short-run GDP but risks crowding out private investment and raising debt.' : i > 25 ? 'High investment signals strong business confidence and builds productive capacity — the engine of long-run growth.' : c > 65 ? 'Very high consumer spending can overheat the economy, pushing inflation above target. Rate hikes may follow.' : 'GDP = C + I + G + NX. Consumer spending (C) drives short-run economic health — when confidence falls, GDP falls with it.';
+}
+
+// ═══════════════════════════════════════════
+// BUSINESS CYCLE CHART
+// ═══════════════════════════════════════════
+function buildCycleChart() {
+  const labels = Array.from({length:80}, (_,i) => i);
+  const data = labels.map(i => (Math.sin(i*0.14)*2.5 + Math.sin(i*0.07)*0.8) + 3);
+  charts.cycle = new Chart(document.getElementById('cycleChart').getContext('2d'), {
+    type: 'line',
+    data: { labels, datasets: [
+      { label: 'Output', data, borderColor: '#3b82f6', borderWidth: 2, fill: true, backgroundColor: 'rgba(59,130,246,0.06)', pointRadius: 0, tension: 0.4 },
+      { label: 'Trend', data: labels.map(() => 3), borderColor: '#4d6280', borderWidth: 1, borderDash: [4, 3], pointRadius: 0 }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+  });
+}
+
+// ═══════════════════════════════════════════
+// INFLATION CHART
+// ═══════════════════════════════════════════
+function buildInfChart() {
+  charts.inf = new Chart(document.getElementById('infChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['P1','P2','P3','P4','P5','P6','P7','P8'],
+      datasets: [
+        { label: 'Inflation', data: [1.8,2.0,2.1,2.3,2.1,2.0,2.2,2.1], backgroundColor: '#ef4444', borderRadius: 3 },
+        { label: 'Target', data: Array(8).fill(2), type: 'line', borderColor: '#4d6280', borderDash: [4,3], borderWidth: 1.5, pointRadius: 0, fill: false }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: gc }, ticks: tc }, y: { grid: { color: gc }, ticks: { ...tc, callback: v => v + '%' } } } }
+  });
+}
+function uInf() {
+  const m = +document.getElementById('imoney').value, d = +document.getElementById('idem').value,
+    s = +document.getElementById('isup').value, w = +document.getElementById('iwage').value;
+  document.getElementById('vimoney').textContent = m + '%';
+  document.getElementById('videm').textContent = (d >= 0 ? '+' : '') + d + '%';
+  document.getElementById('visup').textContent = s + '%';
+  document.getElementById('viwage').textContent = w + '%';
+  const base = 2 + (m-4)*0.18 + d*0.22 - s*0.25 + w*0.2;
+  const series = [base-0.2, base-0.05, base, base+0.15, base+0.1, base-0.05, base+0.12, base].map(v => Math.max(0, parseFloat(v.toFixed(1))));
+  if (charts.inf) { charts.inf.data.datasets[0].data = series; charts.inf.update(); }
+  const avg = parseFloat((series.reduce((a,b)=>a+b,0)/8).toFixed(1));
+  document.getElementById('inf-ins').innerHTML = avg > 8 ? 'Severe inflation — central bank must act aggressively. Risk of expectations becoming unanchored.' : avg > 4 ? 'Above target — central bank will likely raise rates to reduce borrowing and cool demand.' : avg < 0 ? 'Deflation — consumers delay purchases, demand falls further. A debt-deflation trap can follow.' : s < -5 ? 'Cost-push inflation from supply shock. Hard to fix — rate hikes reduce demand but not the supply problem.' : 'Near the 2% target — the sweet spot for central banks. Enough momentum without eroding purchasing power.';
+}
+
+// ═══════════════════════════════════════════
+// UNEMPLOYMENT CHART
+// ═══════════════════════════════════════════
+function buildUnempChart() {
+  const curve = [];
+  for (let u = 2; u <= 12; u += 0.5) curve.push({ x: u, y: parseFloat(Math.max(0, 8 - 0.55*u).toFixed(2)) });
+  charts.unemp = new Chart(document.getElementById('unempChart').getContext('2d'), {
+    type: 'scatter',
+    data: { datasets: [
+      { label: 'Phillips curve', data: curve, borderColor: '#8b5cf6', backgroundColor: 'transparent', showLine: true, borderWidth: 2, pointRadius: 0 },
+      { label: 'Current', data: [{ x: 4.2, y: 5.69 }], borderColor: '#ef4444', backgroundColor: '#ef4444', pointRadius: 7 },
+      { label: 'NAIRU', data: [{ x: 4.5, y: 0 }, { x: 4.5, y: 9 }], borderColor: '#4d6280', backgroundColor: 'transparent', showLine: true, borderWidth: 1.5, borderDash: [4,3], pointRadius: 0 }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: {
+      x: { min: 1, max: 13, title: { display: true, text: 'Unemployment (%)', color: '#4d6280', font: { size: 10 } }, grid: { color: gc }, ticks: tc },
+      y: { min: 0, max: 10, title: { display: true, text: 'Inflation (%)', color: '#4d6280', font: { size: 10 } }, grid: { color: gc }, ticks: tc }
+    }}
+  });
+}
+function uUnemp() {
+  const stim = +document.getElementById('ustim').value, flex = +document.getElementById('uflex').value;
+  document.getElementById('vustim').textContent = stim > 3 ? 'High stimulus' : stim < -2 ? 'Austerity' : 'Neutral';
+  document.getElementById('vuflex').textContent = flex + '/10';
+  const u = Math.max(2, Math.min(12, 4.5 - stim*0.28 + (10-flex)*0.08));
+  const inf = Math.max(0, 8 - 0.55*u);
+  const curve = [];
+  const shift = stim * 0.08;
+  for (let uu = 2; uu <= 12; uu += 0.5) curve.push({ x: uu, y: parseFloat(Math.max(0, 8 - 0.55*uu + shift).toFixed(2)) });
+  if (charts.unemp) { charts.unemp.data.datasets[0].data = curve; charts.unemp.data.datasets[1].data = [{ x: parseFloat(u.toFixed(1)), y: parseFloat(inf.toFixed(1)) }]; charts.unemp.update(); }
+  document.getElementById('unemp-ins').innerHTML = u < 3 ? 'Very low — labour market overheating. Wages spiral, firms raise prices, inflation accelerates.' : u > 7 ? 'High unemployment — deep recession. Large output gap. Room to stimulate without triggering inflation.' : stim > 4 ? 'Stimulus pushed below NAIRU. Short-run gains real — but long-run Phillips curve is vertical. Inflation will rise.' : 'Near NAIRU — the natural floor. Frictional and structural unemployment that policy cannot eliminate without accelerating inflation.';
+}
+
+// ═══════════════════════════════════════════
+// MONETARY CHART
+// ═══════════════════════════════════════════
+function buildMonetaryChart() {
+  charts.mon = new Chart(document.getElementById('monetaryChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: ['GDP growth', 'Inflation', 'Unemployment'], datasets: [{ data: [2.4, 2.1, 4.2], backgroundColor: ['#3b82f6', '#ef4444', '#8b5cf6'], borderRadius: 3 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: gc }, ticks: tc }, y: { grid: { color: gc }, ticks: { ...tc, callback: v => v + '%' } } } }
+  });
+}
+function uMonetary() {
+  const r = parseFloat(document.getElementById('mrate').value), qe = +document.getElementById('mqe').value,
+    res = +document.getElementById('mreserve').value, fwd = +document.getElementById('mfwd').value;
+  document.getElementById('vmrate').textContent = r.toFixed(1) + '%';
+  document.getElementById('vmqe').textContent = qe === 0 ? 'Off' : qe < 4 ? 'Moderate' : 'Aggressive';
+  document.getElementById('vmreserve').textContent = res + '%';
+  document.getElementById('vmfwd').textContent = fwd > 2 ? 'Hawkish' : fwd < -2 ? 'Dovish' : 'Neutral';
+  const gdp = parseFloat(Math.max(-5, 2.4 - (r-4.5)*0.18 + qe*0.12 + fwd*0.08).toFixed(1));
+  const inf = parseFloat(Math.max(0, 2.1 - (r-4.5)*0.28 + qe*0.18 - (res-10)*0.03 + fwd*0.05).toFixed(1));
+  const un = parseFloat(Math.max(2, 4.2 + (r-4.5)*0.12 - qe*0.08 - fwd*0.05).toFixed(1));
+  if (charts.mon) { charts.mon.data.datasets[0].data = [gdp, inf, un]; charts.mon.update(); }
+  document.getElementById('monetary-ins').innerHTML = r > 10 ? 'Extreme tightening — credit very expensive. Investment collapses, unemployment rises sharply. Inflation will fall.' : r < 1 ? 'Near-zero rates — emergency stimulus. Cheap borrowing encourages investment. Risk: asset bubbles.' : qe > 6 ? 'Aggressive QE — central bank buying bonds to suppress long-term rates and encourage risk-taking. Weakens currency.' : 'Rate at ' + r.toFixed(1) + '%. Monetary policy works through credit costs (borrowing), asset prices, and exchange rates — with a 12–18 month lag.';
+}
+function setMonetary(r, qe, res, fwd) {
+  document.getElementById('mrate').value = r; document.getElementById('mqe').value = qe;
+  document.getElementById('mreserve').value = res; document.getElementById('mfwd').value = fwd;
+  uMonetary();
+}
+
+// ═══════════════════════════════════════════
+// FISCAL CHART
+// ═══════════════════════════════════════════
+function buildFiscalChart() {
+  charts.fiscal = new Chart(document.getElementById('fiscalChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: ['GDP impact', 'Deficit effect'], datasets: [{ data: [0, 0], backgroundColor: ['#10b981', '#ef4444'], borderRadius: 3 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: gc }, ticks: tc }, y: { grid: { color: gc }, ticks: { ...tc, callback: v => (v > 0 ? '+' : '') + v + '%' } } } }
+  });
+}
+function uFiscal() {
+  const gov = +document.getElementById('fgov').value, tax = +document.getElementById('ftax').value, mult = parseFloat(document.getElementById('fmult').value);
+  document.getElementById('vfgov').textContent = (gov >= 0 ? '+' : '') + gov + '%';
+  document.getElementById('vftax').textContent = (tax >= 0 ? '+' : '') + tax + '%';
+  document.getElementById('vfmult').textContent = mult.toFixed(1) + '×';
+  const gdpImpact = parseFloat((gov * mult * 0.1 - tax * 0.08).toFixed(1));
+  const deficit = parseFloat((-gov * 0.8 + tax * 0.6).toFixed(1));
+  if (charts.fiscal) { charts.fiscal.data.datasets[0].data = [gdpImpact, deficit]; charts.fiscal.update(); }
+  document.getElementById('fiscal-ins').innerHTML = gov > 15 ? 'Large stimulus — multiplier of ' + mult.toFixed(1) + '× amplifies spending through the economy. But sustained deficits raise debt and interest costs.' : tax > 10 ? 'Sharp tax hikes reduce disposable income and investment. Contractionary — can tip a weak economy into recession.' : tax < -7 ? 'Tax cuts: supply-siders argue they boost incentives. Critics note deficit impact often outweighs growth benefits.' : 'Multiplier of ' + mult.toFixed(1) + '× means £1 of government spending raises GDP by £' + mult.toFixed(1) + '. Larger in recessions, smaller at full capacity.';
+}
+
+// ═══════════════════════════════════════════
+// MONEY CHART
+// ═══════════════════════════════════════════
+function buildMoneyChart() {
+  charts.money = new Chart(document.getElementById('moneyChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: ['Deposit', 'Round 2', 'Round 3', 'Round 4', 'Round 5', 'Total supply'], datasets: [{ data: [1000, 900, 810, 729, 656, 10000], backgroundColor: ['#3b82f6','#10b981','#10b981','#10b981','#10b981','#14b8a6'], borderRadius: 3 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: gc }, ticks: tc }, y: { grid: { color: gc }, ticks: { ...tc, callback: v => '£' + Math.round(v).toLocaleString() } } } }
+  });
+  uMoney();
+}
+function uMoney() {
+  const dep = +document.getElementById('mdeposit').value, res = +document.getElementById('mres').value;
+  document.getElementById('vmdeposit').textContent = '£' + dep.toLocaleString();
+  document.getElementById('vmres').textContent = res + '%';
+  const rr = res / 100, mult = 1 / rr;
+  const r = [dep, dep*(1-rr), dep*(1-rr)**2, dep*(1-rr)**3, dep*(1-rr)**4, Math.round(dep*mult)];
+  if (charts.money) { charts.money.data.datasets[0].data = r; charts.money.update(); }
+  document.getElementById('money-ins').innerHTML = 'Multiplier = 1 ÷ ' + res + '% = ' + mult.toFixed(1) + '×. A £' + dep.toLocaleString() + ' deposit creates up to £' + Math.round(dep*mult).toLocaleString() + ' in broad money supply through repeated lending.';
+}
+
+// ═══════════════════════════════════════════
+// TRADE CHART
+// ═══════════════════════════════════════════
+function buildTradeChart() {
+  charts.trade = new Chart(document.getElementById('tradeChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: ['Exports', 'Imports', 'Balance'], datasets: [{ data: [104, 105, -1], backgroundColor: ['#3b82f6', '#ef4444', '#10b981'], borderRadius: 3 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: gc }, ticks: tc }, y: { grid: { color: gc }, ticks: { ...tc, callback: v => v + 'B' } } } }
+  });
+}
+function uTrade() {
+  const ex = +document.getElementById('tex').value, im = +document.getElementById('tim').value, fx = +document.getElementById('tfx').value;
+  document.getElementById('vtex').textContent = (ex >= 0 ? '+' : '') + ex + '%';
+  document.getElementById('vtim').textContent = (im >= 0 ? '+' : '') + im + '%';
+  document.getElementById('vtfx').textContent = fx > 3 ? 'Weak currency' : fx < -3 ? 'Strong currency' : 'Neutral';
+  const baseEx = 100*(1+ex/100)+fx*0.8, baseIm = 100*(1+im/100)-fx*0.5;
+  const bal = parseFloat((baseEx - baseIm).toFixed(1));
+  if (charts.trade) { charts.trade.data.datasets[0].data = [parseFloat(baseEx.toFixed(1)), parseFloat(baseIm.toFixed(1)), bal]; charts.trade.update(); }
+  document.getElementById('trade-ins').innerHTML = fx > 4 ? 'Weaker currency: exports cheaper for foreigners (boost volumes), imports more expensive domestically (reduce volumes). Balance improves — but with a lag (J-curve).' : fx < -4 ? 'Stronger currency: exports more expensive abroad (lose competitiveness), imports cheaper at home. Trade balance worsens.' : bal < -15 ? 'Large deficit — importing far more than exporting. Must be financed by capital inflows (foreign investment or borrowing).' : 'Trade roughly balanced. In the long run, structural competitiveness and exchange rates matter far more than short-run policy.';
+}
+
+// ═══════════════════════════════════════════
+// GROWTH CHART
+// ═══════════════════════════════════════════
+function buildGrowthChart() {
+  charts.growth = new Chart(document.getElementById('growthChart').getContext('2d'), {
+    type: 'line',
+    data: { labels: Array.from({length:30},(_,i)=>i+1), datasets: [
+      { label: 'Capital/worker', data: [], borderColor: '#3b82f6', borderWidth: 2, pointRadius: 0, tension: 0.3 },
+      { label: 'GDP/worker', data: [], borderColor: '#10b981', borderWidth: 2, pointRadius: 0, tension: 0.3, borderDash: [4,3] }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: gc }, ticks: tc }, y: { grid: { color: gc }, ticks: tc } } }
+  });
+  uGrowth();
+}
+function uGrowth() {
+  const s = +document.getElementById('gs').value/100, n = +document.getElementById('gn').value/100,
+    d = +document.getElementById('gd').value/100, A = +document.getElementById('ga').value/100;
+  document.getElementById('vgs').textContent = Math.round(s*100) + '%';
+  document.getElementById('vgn').textContent = (n*100).toFixed(1) + '%';
+  document.getElementById('vgd').textContent = Math.round(d*100) + '%';
+  document.getElementById('vga').textContent = (A*100).toFixed(1) + '%';
+  let k = 1, kArr = [], yArr = [];
+  for (let t = 0; t < 30; t++) {
+    const y = Math.pow(k, 0.35) * (1 + A*t*0.1);
+    kArr.push(parseFloat(k.toFixed(2))); yArr.push(parseFloat(y.toFixed(2)));
+    k += s*y - (n+d)*k; k = Math.max(0.01, k);
+  }
+  if (charts.growth) { charts.growth.data.datasets[0].data = kArr; charts.growth.data.datasets[1].data = yArr; charts.growth.update(); }
+  document.getElementById('growth-ins').innerHTML = A < 0.005 ? 'Without technology (A ≈ 0), the economy converges to a fixed steady state. Living standards stop rising. Only tech drives long-run growth.' : s > 0.45 ? 'Very high savings fuels capital accumulation — but diminishing returns set in. Only technology (A = '+(A*100).toFixed(1)+'%) sustains per-capita growth.' : n > 0.04 ? 'Rapid population growth means capital spreads thinner across more workers — dragging down capital per person and living standards.' : 'Economy converges to steady state. Only technology growth (A = '+(A*100).toFixed(1)+'%) raises the long-run ceiling — the core Solow insight.';
+}
+
+function showSchool(id) {
+  const names = { keynesian: 'Keynesian Economics', monetarism: 'Monetarism', newclassical: 'New Classical', newkeynesian: 'New Keynesian', supplyside: 'Supply-side Economics', austrian: 'Austrian Economics', mmt: 'Modern Monetary Theory', postkeynesian: 'Post-Keynesian' };
+  showPage('glossary');
+  setTimeout(() => {
+    document.getElementById('gsearch').value = names[id] || id;
+    renderGlossary();
+  }, 100);
+}
+
+// ═══════════════════════════════════════════
+// GLOSSARY DATA
+// ═══════════════════════════════════════════
+const gcats = [
+  {id:'all',label:'All (50)',col:'#4d6280',bg:'rgba(77,98,128,0.15)',tc:'#8fa3bf'},
+  {id:'core',label:'Core concepts',col:'#3b82f6',bg:'rgba(59,130,246,0.12)',tc:'#60a5fa'},
+  {id:'growth',label:'Growth & output',col:'#10b981',bg:'rgba(16,185,129,0.12)',tc:'#34d399'},
+  {id:'inflation',label:'Inflation & prices',col:'#ef4444',bg:'rgba(239,68,68,0.12)',tc:'#f87171'},
+  {id:'unemployment',label:'Jobs & labour',col:'#8b5cf6',bg:'rgba(139,92,246,0.12)',tc:'#a78bfa'},
+  {id:'monetary',label:'Monetary policy',col:'#f59e0b',bg:'rgba(245,158,11,0.12)',tc:'#fbbf24'},
+  {id:'fiscal',label:'Fiscal policy',col:'#14b8a6',bg:'rgba(20,184,166,0.12)',tc:'#2dd4bf'},
+  {id:'money',label:'Money & banking',col:'#6366f1',bg:'rgba(99,102,241,0.12)',tc:'#818cf8'},
+  {id:'trade',label:'Trade & exchange',col:'#f97316',bg:'rgba(249,115,22,0.12)',tc:'#fb923c'},
+  {id:'schools',label:'Schools of thought',col:'#8fa3bf',bg:'rgba(143,163,191,0.12)',tc:'#b8cce0'},
+];
+const gwords = [
+  {w:'GDP',cat:'core',short:'Total value of everything a country produces in a year',plain:'Gross Domestic Product — add up every good and service made in a country over a year. The main measure of economic size. A growing GDP = a growing economy.',eg:'If the UK produces £2.3 trillion of goods and services in 2024, that is its GDP.',formula:'GDP = C + I + G + NX'},
+  {w:'Real GDP',cat:'core',short:'GDP adjusted for inflation — the true measure of growth',plain:'Nominal GDP uses today\'s prices. Real GDP strips out price changes so you can see if the economy actually produced more stuff — not just charged more for it.',eg:'GDP rose 5% but inflation was 3% — real GDP only grew 2%. That 2% is the genuine increase in output.'},
+  {w:'GDP per capita',cat:'core',short:'GDP ÷ population — average income per person',plain:'A country can have huge GDP but a billion people — so each person might be poor. GDP per capita divides total by population to show average living standards.',eg:'Qatar has a tiny population and huge oil wealth — its GDP per capita is among the world\'s highest despite a smaller economy than France.'},
+  {w:'Business cycle',cat:'core',short:'The repeating pattern of booms and recessions',plain:'Economies don\'t grow in a straight line. They expand (grow), peak, contract (shrink), hit a trough (bottom), then expand again. This wave repeats throughout history.',eg:'The US has had 12 recessions since World War II — each followed by expansion. The cycle keeps turning.'},
+  {w:'Recession',cat:'core',short:'Two consecutive quarters of falling GDP',plain:'When GDP falls for two quarters in a row (six months), it\'s officially a recession. Jobs disappear, spending falls, businesses close. The scariest word in economics.',eg:'The 2008–09 recession: US GDP fell 4.3%, unemployment hit 10%. The 2020 COVID recession was sharpest but shortest on record.'},
+  {w:'Expansion',cat:'core',short:'A period when the economy is growing and creating jobs',plain:'The good times. GDP rises, unemployment falls, businesses invest, consumers spend confidently. The 2009–2020 US expansion lasted a record 128 months.',eg:'The 1990s dotcom expansion: the US created 22 million jobs, unemployment fell from 7.8% to 4%.'},
+  {w:'Trough',cat:'core',short:'The lowest point of a recession — where recovery begins',plain:'After a recession, the economy hits its lowest point. The trough is the floor — it marks the end of contraction and the start of expansion.',eg:'March 2009 was the GFC trough. From there began the US\'s record 128-month expansion.'},
+  {w:'Peak',cat:'core',short:'Highest point of expansion — before the next recession',plain:'When the economy runs at maximum capacity — full employment, high growth, rising inflation — it\'s at the peak. After the peak, contraction begins.',eg:'February 2020 was the peak of the longest US expansion. COVID hit within weeks and the recession began.'},
+  {w:'Output gap',cat:'core',short:'Actual GDP minus potential GDP',plain:'Potential GDP is what the economy COULD produce at full capacity. Negative output gap = idle workers and machines (recession). Positive gap = overheating and inflation pressure.',eg:'During a recession, factories run below capacity and workers are idle — the negative output gap shows wasted potential.'},
+  {w:'Aggregate demand',cat:'core',short:'Total spending in an economy at a given price level',plain:'Add all spending by households, businesses, government and foreigners = aggregate demand. When AD rises, output and employment rise. When it falls, recession follows.',eg:'COVID lockdowns collapsed aggregate demand overnight. Government stimulus tried to replace that lost spending.'},
+  {w:'Aggregate supply',cat:'core',short:'Total output the economy can produce at a given price level',plain:'Supply is about production capacity. Short-run supply can be disrupted by shocks (oil, war). Long-run supply grows through technology and capital investment.',eg:'An oil price spike reduces aggregate supply — costs rise, output falls, prices go up. The worst kind for policymakers.'},
+  {w:'Economic growth',cat:'growth',short:'Increase in economy\'s output over time',plain:'Growth means more goods, more services, higher incomes. Measured as % change in real GDP. Sustained growth raises living standards across generations.',eg:'China grew ~10%/year for 30 years, lifting 800 million people out of poverty. The UK typically grows at 1.5–2.5%/year.'},
+  {w:'Solow growth model',cat:'growth',short:'Framework showing what drives long-run growth',plain:'Solow showed long-run growth comes from: capital (machines), labour (workers), and technology (TFP). Only technology sustains growth indefinitely — capital hits diminishing returns.',eg:'If you double a country\'s factories, output won\'t double — each new factory adds less than the last. That\'s diminishing returns.'},
+  {w:'TFP (Total Factor Productivity)',cat:'growth',short:'Efficiency of using inputs — the "Solow residual"',plain:'TFP is the magic ingredient — growth not explained by more workers or capital. Captures innovation, better management, improved institutions and new ideas.',eg:'The US productivity boom of the 1990s was driven by TFP — computers and the internet made every worker more productive.'},
+  {w:'Diminishing returns',cat:'growth',short:'Each extra unit of input adds less and less output',plain:'The first worker at a factory is very productive. The 10th is slightly less. The 100th adds very little. Why you can\'t just keep adding capital and expect growth to continue.',eg:'First irrigation system on farmland boosts crops hugely. Second helps a bit. The 10th barely matters.'},
+  {w:'Convergence',cat:'growth',short:'Poor countries tend to grow faster than rich ones',plain:'Poor countries have less capital, so each new machine or road adds a lot (no diminishing returns yet). They can grow faster and "catch up" to rich countries.',eg:'South Korea, Taiwan and Singapore grew at 8–10%/year for decades, converging toward US income levels.'},
+  {w:'Human capital',cat:'growth',short:'Skills, education and health of the workforce',plain:'Educated, healthy workers are more productive. Investing in schools and healthcare builds human capital — a key driver of long-run growth.',eg:'Singapore invested heavily in education from independence in 1965. Today it has one of the world\'s highest GDP per capita.'},
+  {w:'Inflation',cat:'inflation',short:'Rate at which prices rise across the economy',plain:'When inflation is 3%, things that cost £100 last year cost £103 now. A little is healthy — it keeps the economy moving. Too much erodes the value of money.',eg:'1970s US inflation hit 14%. Zimbabwe 2008 reached 89 sextillion percent — wheelbarrows of cash to buy bread.'},
+  {w:'CPI',cat:'inflation',short:'Consumer Price Index — the main inflation measure',plain:'Tracks the price of a "basket" of goods and services typical households buy — food, rent, transport. When the basket gets more expensive, CPI rises.',eg:'If your monthly grocery bill rises from £400 to £420 with everything else unchanged, this contributes to higher CPI.'},
+  {w:'Demand-pull inflation',cat:'inflation',short:'Too much money chasing too few goods',plain:'When the economy overheats and everyone spends heavily, demand outstrips supply — prices rise. Classic late-expansion inflation.',eg:'Post-COVID 2021: stimulus cheques + pent-up savings + broken supply chains = prices soared.'},
+  {w:'Cost-push inflation',cat:'inflation',short:'Rising production costs push prices up',plain:'When oil, wages or raw materials get expensive, businesses pass costs to consumers. Economy gets higher inflation AND lower output simultaneously.',eg:'1973 OPEC oil embargo quadrupled oil prices overnight. Everything needing energy became more expensive.'},
+  {w:'Hyperinflation',cat:'inflation',short:'Extreme out-of-control inflation — prices double in days',plain:'When government prints money to pay debts, trust in currency collapses. Prices rise millions of percent per year. People spend money before it loses value — making it worse.',eg:'Weimar Germany 1923: a loaf of bread cost 200 billion marks. Banknotes were burned for warmth — cheaper than wood.'},
+  {w:'Deflation',cat:'inflation',short:'Falling prices — sounds good but is dangerous',plain:'When prices fall, consumers delay spending ("I\'ll buy next month when cheaper"). Demand falls, businesses cut jobs, wages fall, spending falls further — a vicious cycle.',eg:'Japan in the 1990s–2000s: deflation trapped the economy for 20 years despite near-zero interest rates.'},
+  {w:'Stagflation',cat:'inflation',short:'High inflation AND high unemployment simultaneously',plain:'The worst of both worlds. Supply shocks cause both to rise at once — leaving policymakers unable to fix both simultaneously. Cutting rates helps unemployment but worsens inflation.',eg:'1970s: oil shocks caused inflation to surge while unemployment also rose. The standard playbook was useless.'},
+  {w:'Inflation expectations',cat:'inflation',short:'What people believe future inflation will be',plain:'If workers expect 5% inflation, they demand 5% wage rises. Firms raise prices to cover wages. Expectation becomes self-fulfilling. Central banks obsess over "anchoring" expectations at 2%.',eg:'Volcker\'s brutal 1981 rate hikes were partly about destroying inflation expectations — once people believed inflation would stay low, it did.'},
+  {w:'Unemployment rate',cat:'unemployment',short:'% of people actively seeking work who cannot find it',plain:'Only counts people without a job AND actively searching. Those who gave up are not counted — so the headline rate can look better than reality.',eg:'US unemployment hit 14.7% in April 2020 — highest since the Great Depression. Back below 4% within 2 years.'},
+  {w:'NAIRU',cat:'unemployment',short:'Lowest unemployment without causing inflation',plain:'Non-Accelerating Inflation Rate of Unemployment. A floor below which unemployment can\'t fall without wages and prices spiralling. Around 4–5% in most developed economies.',eg:'When US unemployment fell below 4% in 2018–19, economists debated if it would cause inflation. Surprisingly, it mostly didn\'t.'},
+  {w:'Frictional unemployment',cat:'unemployment',short:'People between jobs — normal and healthy',plain:'Workers leave bad jobs for better ones. Graduates look for first roles. This natural job-searching period is frictional unemployment — inevitable and even desirable.',eg:'Someone who quits marketing to find a better role is frictionally unemployed. Usually lasts weeks to a few months.'},
+  {w:'Structural unemployment',cat:'unemployment',short:'Skills mismatch — workers can\'t do available jobs',plain:'When industries disappear (coal mining) and new jobs (coding) need different skills, workers get left behind. Harder to fix than cyclical — needs retraining, not just stimulus.',eg:'Welsh coal miners in the 1980s couldn\'t become software engineers overnight. Structural unemployment lasted decades.'},
+  {w:'Cyclical unemployment',cat:'unemployment',short:'Unemployment caused by recessions',plain:'When demand falls in a recession, firms lay off workers. This cyclical unemployment rises in recessions and falls in expansions — the main target of fiscal and monetary policy.',eg:'5 million US jobs lost in 2008–09 were mostly cyclical — businesses rehired as demand recovered.'},
+  {w:'Phillips curve',cat:'unemployment',short:'The inflation-unemployment tradeoff',plain:'In the short run, lower unemployment tends to mean higher inflation. When everyone has a job, workers demand higher wages, firms raise prices. But this tradeoff disappears long-run.',eg:'Late 1960s US: unemployment fell to 3.5% and inflation rose to 6%. Policymakers learned you can\'t permanently trade inflation for jobs.'},
+  {w:'Labour force participation',cat:'unemployment',short:'% of working-age people in the workforce',plain:'Someone who gave up job hunting has left the labour force — not counted as "unemployed." When participation falls, unemployment rate looks better than the true situation.',eg:'US participation fell from 67% in 2000 to 63% by 2015 — millions stopped looking and disappeared from the headline figure.'},
+  {w:'Monetary policy',cat:'monetary',short:'How central banks control money supply and interest rates',plain:'The central bank adjusts rates and money supply to control inflation and support growth. The most powerful short-run economic tool — faster to deploy than fiscal policy.',eg:'In March 2020, the Fed cut rates to near-zero and launched $700bn of QE within two weeks. Markets stabilised almost immediately.'},
+  {w:'Interest rate',cat:'monetary',short:'The cost of borrowing money — the central bank\'s main lever',plain:'When central bank raises rates, borrowing becomes expensive — businesses invest less, consumers spend less, inflation cools. Cut rates = economy speeds up.',eg:'Bank of England raised rates from 0.1% (Dec 2021) to 5.25% by 2023 — fastest cycle in 40 years — to fight inflation.'},
+  {w:'Quantitative easing (QE)',cat:'monetary',short:'Central bank buys bonds to inject money into economy',plain:'When rates are near zero, the central bank stimulates by buying government bonds from banks. Gives banks cash, pushes down long-term rates, encourages lending.',eg:'Fed bought over $4 trillion in assets between 2008–2014. Critics worried about inflation; supporters credit it with preventing another Great Depression.'},
+  {w:'Forward guidance',cat:'monetary',short:'Central bank promises about future interest rates',plain:'By telling markets what it plans to do with rates, the central bank influences expectations today. "We\'ll keep rates low until 2025" is itself a form of stimulus.',eg:'After 2008, the Fed pledged low rates for years ahead. This helped businesses and households plan long-term investments.'},
+  {w:'Taylor rule',cat:'monetary',short:'Formula for the "right" interest rate',plain:'Ideal rate = 2% + 1.5×(inflation − 2%) + 0.5×(output gap). High inflation = raise rates. Economy below potential = cut. A guide, not a law.',eg:'The Taylor rule suggested the Fed should have raised rates much earlier than 2021 — hindsight suggests it was right.'},
+  {w:'Fiscal policy',cat:'fiscal',short:'Government spending and taxation to manage the economy',plain:'Unlike monetary policy (central bank), fiscal policy is decided by elected governments. Spend more / cut taxes to stimulate. Spend less / raise taxes to cool inflation and reduce debt.',eg:'US CARES Act 2020: $2.2 trillion — direct payments, business loans, unemployment top-ups. Largest emergency package in US history.'},
+  {w:'Fiscal multiplier',cat:'fiscal',short:'How much GDP rises per £1 of government spending',plain:'If government spends £1bn and GDP rises by £1.5bn, multiplier = 1.5. Each pound ripples through the economy via wages and spending. Bigger in recessions, smaller in booms.',eg:'IMF found 2010 European austerity multiplier was much larger than assumed — meaning cuts caused more damage than expected.'},
+  {w:'Automatic stabilisers',cat:'fiscal',short:'Built-in changes that cushion recessions automatically',plain:'When recession hits, unemployment benefits automatically increase spending and tax revenues automatically fall. This supports incomes without any new legislation needed.',eg:'In the 2008–09 UK recession, unemployment benefits paid billions more automatically — cushioning household incomes without any budget announcement.'},
+  {w:'Crowding out',cat:'fiscal',short:'Government borrowing pushes up rates, reducing private investment',plain:'When government borrows heavily, it competes with private firms for funds — driving up interest rates. Businesses invest less. The stimulus is partially cancelled by reduced private activity.',eg:'Debate after 2008: some said US stimulus was offset by crowding out. Others said near-zero rates meant no crowding out at all.'},
+  {w:'Public debt',cat:'fiscal',short:'Total amount a government owes its creditors',plain:'When governments spend more than they tax, they borrow the difference — adding to public debt. Sustainable if the economy grows faster than the interest rate (g > r).',eg:'Japan\'s public debt exceeds 250% of GDP — highest in the developed world — yet no default because it borrows in its own currency at near-zero rates.'},
+  {w:'Money supply',cat:'money',short:'Total amount of money in circulation in an economy',plain:'Money exists in forms: physical cash (M0), bank deposits (M1), savings accounts (M2). Central bank controls M0 directly. The rest is created by commercial banks through lending.',eg:'US M2 surged 27% in 2020–21 as the Fed injected liquidity and government sent stimulus cheques — contributing to the 2021–22 inflation surge.'},
+  {w:'Money multiplier',cat:'money',short:'How much money banks create from one deposit',plain:'If bank receives £1,000 and must keep 10% as reserves, it lends £900. That gets deposited, which lends £810, and so on. Total new money = £10,000. Multiplier = 1 ÷ reserve ratio.',eg:'With 10% reserve ratio, £1,000 becomes £10,000 of broad money. Lower reserve requirements = more money creation.'},
+  {w:'Fractional reserve banking',cat:'money',short:'Banks lend most deposits and keep only a fraction in reserve',plain:'Banks don\'t keep all your deposits in a vault. They lend most out, keeping just a fraction available for withdrawals. This is how banks create credit — and how bank runs happen.',eg:'Silicon Valley Bank 2023: depositors tried to withdraw at once. Bank had lent most deposits out — couldn\'t pay everyone. Classic bank run.'},
+  {w:'Velocity of money',cat:'money',short:'How many times each unit of money changes hands per year',plain:'From Quantity Theory: MV = PQ. If money supply doubles but velocity halves, prices don\'t change. After 2008, QE created huge money but velocity collapsed — partly why inflation didn\'t surge then.',eg:'COVID stimulus was inflationary partly because velocity recovered as lockdowns ended — people spent saved-up money rapidly.'},
+  {w:'Comparative advantage',cat:'trade',short:'Specialise in what you\'re relatively best at — even if worse overall',plain:'Ricardo\'s insight: even if country A is better than B at making everything, trade still benefits both. Each should specialise in what it\'s relatively least bad at.',eg:'Portugal is better at wine AND cloth than England. But it\'s relatively much better at wine — so Portugal makes wine, England makes cloth, both trade, both benefit.'},
+  {w:'Balance of payments',cat:'trade',short:'Record of all economic transactions between country and world',plain:'Current account (trade in goods/services, income) + Capital account (investment flows). Must sum to zero — every deficit is financed by a surplus elsewhere.',eg:'UK runs large current account deficit (imports more than exports) offset by capital account surplus (foreign investors buying UK assets).'},
+  {w:'Exchange rate',cat:'trade',short:'Price of one currency in terms of another',plain:'How much foreign currency £1 buys. Stronger pound = imports cheaper (good for consumers) but exports more expensive (bad for exporters). Weaker pound is the opposite.',eg:'Pound fell 15% after 2016 Brexit vote — UK holidaymakers paid more abroad, import prices rose, but UK exporters became more competitive.'},
+  {w:'Keynesian economics',cat:'schools',short:'Government must boost demand in recessions — Keynes 1936',plain:'In recessions, private demand collapses and prices are "sticky." Government must spend to fill the gap. The market won\'t self-correct fast enough on its own.',eg:'"In the long run we are all dead" — Keynes\' response to those who said markets self-correct eventually. His prescription: spend now.'},
+  {w:'Monetarism',cat:'schools',short:'Inflation is always a monetary phenomenon — Friedman',plain:'Friedman: governments cause more harm than good by tinkering. Inflation is always caused by too much money. Only good policy is stable, predictable money supply growth.',eg:'Friedman blamed the Great Depression on the Fed letting the money supply collapse by 30% — not on insufficient government spending.'},
+  {w:'New Classical economics',cat:'schools',short:'Rational people anticipate policy — so it doesn\'t work',plain:'Lucas, Sargent: people aren\'t fooled by government. If government announces stimulus, rational people anticipate future tax rises and save the stimulus. Policy becomes ineffective.',eg:'"Policy ineffectiveness proposition": if people know the central bank always prints when unemployment rises, they demand higher wages pre-emptively.'},
+  {w:'New Keynesian economics',cat:'schools',short:'Modern mainstream: sticky prices + rational expectations',plain:'Combines Keynes (sticky prices mean policy affects output) with rational expectations. DSGE models. The framework used by the Fed, Bank of England and most central banks today.',eg:'The NK Phillips curve links inflation to expected future inflation and the output gap — the workhorse of modern central bank forecasting.'},
+  {w:'Austrian economics',cat:'schools',short:'Markets know best — Hayek, Mises',plain:'Hayek: prices carry information no planner can replicate. Low rates cause malinvestment and boom-bust cycles. The cure for recessions is to let them clear, not stimulate artificially.',eg:'Austrian economists predicted the 2008 housing bust — arguing the Fed\'s low rates in 2001–04 created exactly the unsustainable credit boom Hayek warned about.'},
+  {w:'Modern Monetary Theory (MMT)',cat:'schools',short:'Currency-issuing governments can\'t go bankrupt in own currency',plain:'Kelton: the US and UK can always create money to pay bills. The real constraint is inflation, not debt. Taxes drain money to prevent inflation rather than fund spending.',eg:'MMT supporters point to Japan: 250%+ debt/GDP with low inflation — arguing it proves government debt in your own currency is not the constraint mainstream economics assumes.'},
+];
+
+let gActiveCat = 'all';
+function buildGlossary() {
+  const wrap = document.getElementById('gcat-tabs');
+  wrap.innerHTML = gcats.map(c => `<button class="ct ${c.id==='all'?'active':''}" id="gct-${c.id}" onclick="setGCat('${c.id}')" style="color:${c.tc};background:${c.bg};border-color:${c.col}30">${c.label}</button>`).join('');
+  renderGlossary();
+}
+function setGCat(id) {
+  gActiveCat = id;
+  document.querySelectorAll('.ct').forEach(b => b.classList.remove('active'));
+  document.getElementById('gct-' + id).classList.add('active');
+  renderGlossary();
+}
+function renderGlossary() {
+  const q = document.getElementById('gsearch').value.trim().toLowerCase();
+  let filtered = gwords.filter(w => gActiveCat === 'all' || w.cat === gActiveCat);
+  if (q) filtered = filtered.filter(w => w.w.toLowerCase().includes(q) || w.short.toLowerCase().includes(q) || w.plain.toLowerCase().includes(q));
+  document.getElementById('gcount').textContent = filtered.length + ' keyword' + (filtered.length !== 1 ? 's' : '');
+  if (!filtered.length) { document.getElementById('gkw-grid').innerHTML = '<div class="empty">No keywords match your search.</div>'; return; }
+  const cat = gcats.reduce((a, c) => { a[c.id] = c; return a; }, {});
+  document.getElementById('gkw-grid').innerHTML = filtered.map((w, i) => {
+    const c = cat[w.cat] || cat.all;
+    return `<div class="kw-card" id="gkc-${i}" onclick="toggleGCard(${i})">
+      <div class="kw-top">
+        <div><div class="kw-word">${w.w}</div><div class="kw-short">${w.short}</div></div>
+        <span class="kw-badge" style="background:${c.bg};color:${c.tc}">${c.label}</span>
+      </div>
+      <div class="kw-expand" id="gke-${i}">
+        <div class="kw-plain">${w.plain}</div>
+        ${w.formula ? `<div class="formula">${w.formula}</div>` : ''}
+        <div class="kw-eg"><strong>Real example:</strong> ${w.eg}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggleGCard(i) {
+  const card = document.getElementById('gkc-' + i), exp = document.getElementById('gke-' + i);
+  const isOpen = exp.classList.contains('open');
+  document.querySelectorAll('.kw-expand.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.kw-card.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) { exp.classList.add('open'); card.classList.add('open'); }
+}
+
+// ═══════════════════════════════════════════
+// FLASHCARDS
+// ═══════════════════════════════════════════
+let fcIdx = 0, fcWords = [], fcFlipped = false;
+function buildFlashcards() {
+  fcWords = [...gwords];
+  renderCard();
+}
+function renderCard() {
+  fcFlipped = false;
+  document.getElementById('flashcard').classList.remove('flipped');
+  const w = fcWords[fcIdx];
+  document.getElementById('fc-word').textContent = w.w;
+  const cat = gcats.find(c => c.id === w.cat) || gcats[0];
+  document.getElementById('fc-cat').textContent = cat.label;
+  document.getElementById('fc-short').textContent = w.plain;
+  document.getElementById('fc-eg').textContent = 'Example: ' + w.eg;
+  document.getElementById('fc-count').textContent = (fcIdx + 1) + ' / ' + fcWords.length;
+  document.getElementById('fc-prog').style.width = Math.round(((fcIdx + 1) / fcWords.length) * 100) + '%';
+}
+function flipCard() { fcFlipped = !fcFlipped; document.getElementById('flashcard').classList.toggle('flipped'); }
+function fcNav(dir) { fcIdx = (fcIdx + dir + fcWords.length) % fcWords.length; renderCard(); }
+function shuffleCards() { fcWords = [...gwords].sort(() => Math.random() - 0.5); fcIdx = 0; renderCard(); }
+
+// ═══════════════════════════════════════════
+// QUIZ DATA
+// ═══════════════════════════════════════════
+const allQuestions = [
+  {topic:'GDP & Output',q:'What does GDP stand for?',opts:['Gross Domestic Product','Government Deficit Projection','General Demand Pressure','Gross Debt Position'],ans:0,exp:'GDP = Gross Domestic Product. It\'s the total value of all goods and services produced in a country in a year — the main measure of economic size.'},
+  {topic:'GDP & Output',q:'In the equation GDP = C + I + G + NX, what does "NX" stand for?',opts:['New expenditure','Net exports (exports minus imports)','National expenditure','Nominal exchange rate'],ans:1,exp:'NX = Net Exports = Exports − Imports. A trade surplus adds to GDP; a trade deficit reduces it.'},
+  {topic:'GDP & Output',q:'Why is "Real GDP" more useful than "Nominal GDP" for measuring growth?',opts:['Real GDP includes government spending, nominal doesn\'t','Real GDP adjusts for inflation, so it shows true output changes','Real GDP is always higher than nominal GDP','Real GDP only counts manufactured goods'],ans:1,exp:'Nominal GDP can rise just because prices rose (inflation). Real GDP strips out price changes to show whether actual output increased.'},
+  {topic:'Business Cycle',q:'What is the official definition of a recession?',opts:['Unemployment above 6%','Stock market falling for 3 months','Two consecutive quarters of negative GDP growth','Government deficit exceeding 3% of GDP'],ans:2,exp:'A recession is officially defined as two consecutive quarters (six months) of negative GDP growth. Output shrinks, jobs disappear, and spending falls.'},
+  {topic:'Business Cycle',q:'The 2009–2020 US expansion was notable because:',opts:['It was the fastest recovery in history','It was the longest expansion ever recorded at 128 months','It had the highest GDP growth rates of any expansion','It featured no inflation at all'],ans:1,exp:'The 2009–2020 expansion lasted 128 months — the longest in US recorded history. However, it was also the slowest recovery in terms of wage growth for ordinary workers.'},
+  {topic:'Business Cycle',q:'Which of the following is a LEADING economic indicator?',opts:['The unemployment rate','Published GDP figures','New building permits issued','Corporate profit reports'],ans:2,exp:'Building permits are issued before buildings are built — they predict future economic activity. GDP and unemployment are lagging indicators that confirm what already happened.'},
+  {topic:'Inflation',q:'Demand-pull inflation is best described as:',opts:['Rising production costs passed onto consumers','Too much money chasing too few goods','The government printing money','Inflation imported from abroad'],ans:1,exp:'Demand-pull inflation occurs when aggregate demand outstrips supply — too much money chasing too few goods. Classic overheating in a boom economy.'},
+  {topic:'Inflation',q:'What is "stagflation"?',opts:['Slow but steady economic growth','High inflation combined with high unemployment','Deflation combined with rising asset prices','Very low inflation for a prolonged period'],ans:1,exp:'Stagflation is the worst of both worlds — high inflation AND high unemployment simultaneously. The 1970s oil shocks caused this, leaving policymakers unable to fix both problems at once.'},
+  {topic:'Inflation',q:'Why is deflation (falling prices) generally considered dangerous?',opts:['It makes exports cheaper, hurting exporters','Consumers delay purchases expecting lower prices, reducing demand and creating a vicious cycle','Central banks can\'t measure deflation accurately','It always causes hyperinflation to follow'],ans:1,exp:'Deflation causes people to delay spending ("I\'ll buy it cheaper later"). This reduces demand, leading to more job losses, lower wages, and further price falls — a debt-deflation spiral.'},
+  {topic:'Unemployment',q:'What type of unemployment is caused by a skills mismatch between workers and available jobs?',opts:['Cyclical unemployment','Frictional unemployment','Structural unemployment','Seasonal unemployment'],ans:2,exp:'Structural unemployment occurs when the economy shifts (e.g., from manufacturing to tech) and workers lack the skills for available jobs. Requires retraining, not just stimulus.'},
+  {topic:'Unemployment',q:'What does NAIRU stand for?',opts:['National Average Unemployment Interest Rate','Non-Accelerating Inflation Rate of Unemployment','Natural Annual Unemployment Index Rate','Net Adjusted Unemployment Indicator Range'],ans:1,exp:'NAIRU = Non-Accelerating Inflation Rate of Unemployment. It\'s the "floor" below which unemployment can\'t fall without inflation starting to accelerate. Around 4–5% in most economies.'},
+  {topic:'Unemployment',q:'The Phillips Curve shows that in the short run:',opts:['Lower unemployment tends to lead to higher inflation','Higher inflation always causes lower unemployment','Unemployment and inflation are completely unrelated','Lower unemployment always reduces inflation'],ans:0,exp:'In the short run, the Phillips Curve shows a tradeoff: lower unemployment → workers demand higher wages → firms raise prices → higher inflation. In the long run this tradeoff disappears.'},
+  {topic:'Monetary Policy',q:'When a central bank RAISES interest rates, what is it trying to achieve?',opts:['Encourage more borrowing and spending','Combat high inflation by making borrowing more expensive','Increase the money supply','Lower the exchange rate to boost exports'],ans:1,exp:'Raising rates makes borrowing more expensive. Businesses invest less, consumers spend less — demand falls and inflation cools. The central bank\'s primary anti-inflation tool.'},
+  {topic:'Monetary Policy',q:'What is Quantitative Easing (QE)?',opts:['Raising taxes to reduce government spending','The central bank buying government bonds to inject money into the economy','Setting a fixed exchange rate for the currency','Reducing reserve requirements for banks'],ans:1,exp:'QE = the central bank buying bonds from banks, giving them cash and pushing down long-term interest rates. Used when the policy rate is already near zero and more stimulus is needed.'},
+  {topic:'Monetary Policy',q:'The "transmission mechanism" of monetary policy refers to:',opts:['How the government approves central bank decisions','The process by which rate changes flow through to the real economy — typically taking 12–18 months','The technical process of printing banknotes','How central banks communicate with each other'],ans:1,exp:'The transmission mechanism is the chain: rate change → bank rates change → borrowing costs change → investment and spending change → output and inflation change. Takes 12–18 months to fully work.'},
+  {topic:'Fiscal Policy',q:'What is the "fiscal multiplier"?',opts:['The ratio of government debt to GDP','How much GDP rises for every £1 of government spending','The percentage of income paid in tax','The ratio of public to private investment'],ans:1,exp:'The fiscal multiplier shows how much GDP increases per £1 of government spending. If the multiplier is 1.5, spending £1bn raises GDP by £1.5bn through the ripple effects of wages and spending.'},
+  {topic:'Fiscal Policy',q:'What are "automatic stabilisers"?',opts:['Rules that automatically balance the budget each year','Built-in spending changes (like unemployment benefits) that cushion recessions without new legislation','Automatic interest rate adjustments by the central bank','Government contracts that automatically renew each year'],ans:1,exp:'Automatic stabilisers are budget items that automatically expand in recessions (unemployment benefits rise, tax revenues fall) and contract in booms — cushioning cycles without deliberate policy action.'},
+  {topic:'Fiscal Policy',q:'"Crowding out" in the context of fiscal policy means:',opts:['Government spending reduces private consumption directly','Heavy government borrowing raises interest rates, reducing private investment','Fiscal stimulus crowds out the effects of monetary policy','Automatic stabilisers replace discretionary spending'],ans:1,exp:'When governments borrow heavily, they compete with private firms for funds, driving up interest rates. Higher rates make private investment less attractive, partially offsetting the stimulus effect.'},
+  {topic:'Money & Banking',q:'In fractional reserve banking, if the reserve ratio is 20%, the money multiplier is:',opts:['2×','5×','20×','0.2×'],ans:1,exp:'Money multiplier = 1 ÷ reserve ratio = 1 ÷ 0.20 = 5×. A £1,000 deposit can create up to £5,000 in broad money through repeated lending and redepositing.'},
+  {topic:'Money & Banking',q:'What is the Quantity Theory of Money (MV = PQ)?',opts:['Money supply × Velocity = Price level × Real output — more money eventually means higher prices','Money value × Velocity = Product quantity — money speed determines output','Market value of goods = Price × Quantity traded every year','Monetary policy × Variables = Predicted quarterly GDP'],ans:0,exp:'MV = PQ means: Money Supply × Velocity = Price Level × Real Output. If M rises but V and Q stay fixed, P (prices) must rise. This is why excessive money printing causes inflation.'},
+  {topic:'Money & Banking',q:'M0 (the "monetary base") consists of:',opts:['All bank deposits and savings accounts','Physical cash plus bank reserves held at the central bank','Government bonds plus foreign currency reserves','Stocks, bonds and all financial assets'],ans:1,exp:'M0 = physical currency in circulation + bank reserves held at the central bank. It\'s directly controlled by the central bank and forms the foundation of the money supply.'},
+  {topic:'International Trade',q:'David Ricardo\'s theory of comparative advantage shows that:',opts:['Countries should only trade in goods they produce more efficiently than others','Trade benefits both countries even if one is more efficient at producing everything','Free trade always reduces a country\'s GDP','Countries should protect all domestic industries'],ans:1,exp:'Comparative advantage shows trade benefits BOTH countries even if one is better at making everything. Each should specialise in what it\'s relatively most efficient at — even if not absolutely best.'},
+  {topic:'International Trade',q:'What does the "J-curve effect" describe?',opts:['GDP growth accelerating as expansion matures','Trade balance worsening before improving after a currency devaluation','The relationship between inflation and unemployment','How investment returns diminish over time'],ans:1,exp:'After a currency weakens, import prices rise immediately (you pay more for the same imports) while export volumes take time to respond. So the trade deficit worsens before improving — forming a J shape.'},
+  {topic:'International Trade',q:'A "current account deficit" means:',opts:['The government is spending more than it collects in taxes','A country is importing more goods and services than it exports','The central bank is running out of foreign reserves','Interest rates are below the inflation rate'],ans:1,exp:'A current account deficit means a country buys more from the rest of the world than it sells. It must be financed by capital account inflows — foreign investment or borrowing.'},
+  {topic:'Long-run Growth',q:'In the Solow growth model, which factor can sustain long-run growth indefinitely?',opts:['Increasing the savings rate','Population growth','Technological progress (TFP)','Building more factories'],ans:2,exp:'Capital accumulation hits diminishing returns — each new factory adds less than the last. Only technological progress (TFP) can keep raising productivity and sustain growth in living standards indefinitely.'},
+  {topic:'Long-run Growth',q:'The concept of "convergence" in growth theory predicts that:',opts:['All countries will eventually have the same GDP','Poor countries should grow faster than rich countries, narrowing income gaps over time','Rich countries will always grow faster due to better institutions','Economies converge to zero growth in the long run'],ans:1,exp:'Convergence: poor countries have less capital, so each new investment adds a lot (no diminishing returns yet). They can grow faster and catch up to rich countries — as seen in South Korea, Taiwan and Singapore.'},
+  {topic:'Schools of Thought',q:'Keynesian economics primarily argues that:',opts:['Markets are perfectly efficient and self-correct instantly','Government should actively stimulate demand during recessions because prices are sticky','Inflation is the only macroeconomic problem worth worrying about','Free trade always maximises economic output'],ans:1,exp:'Keynes argued that in recessions, private demand collapses and prices don\'t fall fast enough for markets to self-correct. Government must step in and spend to fill the gap.'},
+  {topic:'Schools of Thought',q:'Milton Friedman\'s Monetarism argues that inflation is:',opts:['Caused by corporate greed and monopoly power','Always and everywhere a monetary phenomenon','Primarily caused by trade deficits','A natural consequence of economic growth'],ans:1,exp:'Friedman\'s famous claim: inflation is always caused by excessive money supply growth. The cure is stable, predictable monetary growth — not discretionary government intervention.'},
+  {topic:'Schools of Thought',q:'Modern Monetary Theory (MMT) argues that a government that issues its own currency:',opts:['Can never run a budget deficit without causing inflation','Cannot go bankrupt in its own currency — the real constraint is inflation','Must always balance its budget over a business cycle','Should only spend money it collects in taxes'],ans:1,exp:'MMT argues currency-issuing governments (like the US or UK) can always create money to pay bills in their own currency. The true constraint is inflation, not the quantity of money available.'},
+  {topic:'Schools of Thought',q:'Which school of economic thought is most associated with "rational expectations" — the idea that people anticipate and counteract economic policy?',opts:['Keynesian economics','Monetarism','New Classical economics','Post-Keynesian economics'],ans:2,exp:'New Classical economics (Lucas, Sargent) built on rational expectations: people anticipate policy actions and adjust behaviour pre-emptively, reducing (or eliminating) the effectiveness of systematic policy.'},
+];
+
+let quizIdx = 0, quizScore = 0, quizAnswered = false, shuffledQ = [];
+function buildQuizData() { shuffledQ = [...allQuestions]; }
+function startQuiz() {
+  shuffledQ = [...allQuestions].sort(() => Math.random() - 0.5);
+  quizIdx = 0; quizScore = 0; quizAnswered = false;
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-end').style.display = 'none';
+  document.getElementById('quiz-active').style.display = 'block';
+  renderQuizQ();
+}
+function renderQuizQ() {
+  const q = shuffledQ[quizIdx];
+  document.getElementById('qnum').textContent = 'Q' + (quizIdx+1) + ' · ' + q.topic;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('qopts').innerHTML = q.opts.map((o, i) => `<button class="quiz-opt" id="qo-${i}" onclick="answerQ(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+  document.getElementById('qfb').className = 'quiz-fb';
+  document.getElementById('qfb').textContent = '';
+  document.getElementById('qnext').style.display = 'none';
+  document.getElementById('quiz-prog-lbl').textContent = 'Question ' + (quizIdx+1) + ' of ' + shuffledQ.length;
+  document.getElementById('quiz-prog-bar').style.width = Math.round(((quizIdx+1)/shuffledQ.length)*100) + '%';
+  document.getElementById('quiz-score-live').textContent = quizScore;
+  quizAnswered = false;
+}
+function answerQ(i) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = shuffledQ[quizIdx];
+  const correct = i === q.ans;
+  if (correct) quizScore++;
+  document.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+  document.getElementById('qo-' + i).classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) document.getElementById('qo-' + q.ans).classList.add('correct');
+  const fb = document.getElementById('qfb');
+  fb.className = 'quiz-fb show ' + (correct ? 'correct' : 'wrong');
+  fb.textContent = (correct ? '✓ Correct! ' : '✗ Not quite. ') + q.exp;
+  document.getElementById('qnext').style.display = 'inline-flex';
+  document.getElementById('quiz-score-live').textContent = quizScore;
+}
+function nextQuestion() {
+  quizIdx++;
+  if (quizIdx >= shuffledQ.length) {
+    document.getElementById('quiz-active').style.display = 'none';
+    document.getElementById('quiz-end').style.display = 'block';
+    const pct = Math.round((quizScore / shuffledQ.length) * 100);
+    document.getElementById('final-score').textContent = quizScore + ' / ' + shuffledQ.length;
+    document.getElementById('final-bar').style.width = pct + '%';
+    document.getElementById('score-msg').textContent = pct >= 90 ? '🏆 Outstanding! You\'ve mastered macroeconomics!' : pct >= 70 ? '🎉 Great work! Solid understanding across all topics.' : pct >= 50 ? '👍 Good effort — review the topics you found tricky.' : '📚 Keep studying — revisit the topic pages and try again!';
+  } else {
+    renderQuizQ();
+  }
+}
+function restartQuiz() {
+  document.getElementById('quiz-end').style.display = 'none';
+  startQuiz();
+}
+
+// init home
+initChartForPage('home');
+</script>
+</body>
+</html>
